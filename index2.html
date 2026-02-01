@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pijush Kanti Roy Partho | Research Portfolio</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;600&family=Inter:wght@300;400;500;600;700&family=Merriweather:ital,wght@0,300;0,400;0,700;1,300&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+    <style>
+        /* --- 1. CSS Variables (Theming) --- */
+        :root {
+            --sidebar-w: 300px;
+            --primary: #2563eb;       /* Academic Blue */
+            --primary-light: #eff6ff; /* Light Blue BG */
+            --text-main: #1f2937;     /* Dark Grey */
+            --text-light: #4b5563;    /* Muted Grey */
+            --bg-sidebar: #f8fafc;    /* Very Light Grey */
+            --bg-main: #ffffff;       /* White */
+            --border: #e5e7eb;
+            --quote-bg: #f3f4f6;
+            --code-bg: #1e293b;       /* Dark Slate for code */
+            --code-text: #f8fafc;
+            --img-border: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Dark Mode Overrides */
+        [data-theme="dark"] {
+            --primary: #60a5fa;       
+            --primary-light: rgba(37, 99, 235, 0.15);
+            --text-main: #f1f5f9;     
+            --text-light: #94a3b8;    
+            --bg-sidebar: #0f172a;    /* Dark Navy */
+            --bg-main: #1e293b;       /* Slate */
+            --border: #334155;        
+            --quote-bg: #020617;
+            --code-bg: #020617;       
+            --img-border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+
+        /* --- 2. Global Resets --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Merriweather', serif;
+            color: var(--text-main);
+            background: var(--bg-main);
+            line-height: 1.8;
+            font-size: 1.05rem;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Sans-Serif Elements */
+        h1, h2, h3, h4, nav, button, .badge, .meta-text, .quote-author, .sidebar, .article-title, .pub-title {
+            font-family: 'Inter', sans-serif;
+        }
+
+        a { color: var(--primary); text-decoration: none; transition: 0.2s; }
+        a:hover { text-decoration: underline; }
+        
+        button { cursor: pointer; border: none; outline: none; }
+
+        /* --- 3. Layout Grid --- */
+        .layout {
+            display: grid;
+            grid-template-columns: var(--sidebar-w) 1fr;
+            min-height: 100vh;
+        }
+
+        /* --- 4. Aesthetic Sidebar --- */
+        .sidebar {
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 3rem 2rem;
+            position: fixed;
+            width: var(--sidebar-w);
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center horizontally */
+            justify-content: space-between; /* Space between top info and footer */
+            text-align: center;
+            z-index: 50;
+            transition: transform 0.3s ease, background-color 0.3s;
+        }
+
+        .profile-img {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--img-border);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+
+        .logo {
+            font-weight: 800;
+            font-size: 1.5rem;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            margin-bottom: 0.5rem;
+            display: block;
+            text-decoration: none !important;
+        }
+        
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+
+        /* Navigation */
+        .nav-menu { list-style: none; width: 100%; margin-bottom: auto; }
+        .nav-menu li { margin-bottom: 0.8rem; }
+        
+        .nav-btn {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start; /* Icon left, text follows */
+            width: 100%;
+            background: transparent;
+            color: var(--text-light);
+            padding: 0.7rem 1rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: 0.2s;
+        }
+        .nav-btn i { width: 25px; text-align: center; margin-right: 10px; }
+        
+        .nav-btn:hover, .nav-btn.active {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+
+        /* Sidebar Footer */
+        .sidebar-footer {
+            width: 100%;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Theme Toggle */
+        .theme-toggle-btn {
+            background: var(--bg-main);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+            padding: 0.5rem;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: 0.2s;
+            margin-bottom: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+        .theme-toggle-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+        .contact-info { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; }
+        .contact-info i { color: var(--primary); margin-right: 6px; }
+        
+        .social-icons { display: flex; gap: 1rem; }
+        .social-icons a { font-size: 1.2rem; color: var(--text-light); transition: 0.2s; }
+        .social-icons a:hover { color: var(--primary); transform: translateY(-2px); }
+
+        /* --- 5. Main Content Area --- */
+        .main-content {
+            grid-column: 2;
+            padding: 4rem 5rem;
+            max-width: 1000px; /* Constrain width for readability */
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        /* Headings */
+        section { margin-bottom: 4rem; animation: fadeIn 0.5s ease; }
+        h1 { font-size: 2.5rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.5rem; color: var(--text-main); }
+        h2 { font-size: 1.5rem; margin-top: 3rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; color: var(--text-main); }
+        h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; color: var(--text-main); }
+        .subtitle { font-size: 1.2rem; color: var(--text-light); margin-bottom: 2.5rem; font-weight: 400; }
+
+        /* Quote Box */
+        .quote-box {
+            background: var(--quote-bg);
+            padding: 1.5rem 2rem;
+            border-left: 4px solid var(--primary);
+            font-style: italic;
+            margin-bottom: 2.5rem;
+            border-radius: 0 8px 8px 0;
+            color: var(--text-main);
+        }
+        .quote-author { display: block; margin-top: 0.8rem; font-style: normal; font-weight: 600; font-size: 0.9rem; color: var(--text-light); }
+
+        /* Skills */
+        .skill-list { list-style: none; display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 1rem; }
+        .skill-tag { background: var(--border); padding: 5px 14px; border-radius: 20px; font-size: 0.9rem; color: var(--text-main); font-weight: 500; font-family: 'Inter', sans-serif;}
+
+        /* Publications List */
+        .pub-section-header {
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-light);
+            font-weight: 700; margin-top: 2.5rem; margin-bottom: 1.2rem; display: flex; align-items: center;
+        }
+        .pub-section-header::after { content: ""; flex: 1; height: 1px; background: var(--border); margin-left: 1rem; }
+
+        .pub-item { margin-bottom: 2rem; padding-left: 1rem; border-left: 2px solid transparent; transition: 0.2s; }
+        .pub-item:hover { border-left-color: var(--primary); }
+        .pub-title { font-weight: 700; font-size: 1.1rem; color: var(--text-main); display: block; margin-bottom: 4px; }
+        .pub-meta { font-size: 0.95rem; color: var(--text-light); }
+        .highlight-name { font-weight: 700; color: var(--text-main); }
+
+        /* Badges */
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+        .badge-conf { background: #dbeafe; color: #1e40af; }
+        .badge-journal { background: #fce7f3; color: #9d174d; }
+        .badge-book { background: #fef3c7; color: #92400e; }
+        .badge-review { background: var(--border); color: var(--text-light); }
+
+        /* --- 6. Blog & Article Styling --- */
+        .article-card { padding: 1.5rem 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .article-card:hover .article-title { color: var(--primary); }
+        
+        .article-full { display: none; animation: fadeIn 0.4s ease; padding-bottom: 4rem; }
+        .article-header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .article-content { font-size: 1.1rem; color: var(--text-main); line-height: 1.9; }
+        .article-content p { margin-bottom: 1.5rem; }
+
+        /* Code Blocks */
+        pre {
+            background: var(--code-bg);
+            color: var(--code-text);
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary);
+        }
+
+        /* Images in Articles */
+        .img-container { margin: 2.5rem 0; text-align: center; }
+        .img-container img { max-width: 100%; border-radius: 8px; border: 1px solid var(--border); box-shadow: var(--shadow); }
+        .img-caption { font-size: 0.9rem; color: var(--text-light); margin-top: 0.8rem; font-style: italic; font-family: 'Inter', sans-serif; }
+
+        .btn-back { display: inline-block; margin-bottom: 1.5rem; color: var(--primary); font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; display: flex; align-items: center; }
+        .btn-back i { margin-right: 8px; }
+        .btn-back:hover { text-decoration: underline; }
+
+        .bangla-font { font-family: 'Anek Bangla', sans-serif; }
+
+        /* --- 7. Mobile Responsive --- */
+        .mobile-toggle { 
+            display: none; position: fixed; top: 1rem; right: 1rem; z-index: 100; 
+            background: var(--bg-main); padding: 0.6rem 0.8rem; border: 1px solid var(--border); 
+            border-radius: 4px; color: var(--text-main); 
+        }
+
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { transform: translateX(-100%); width: 280px; align-items: center; text-align: center; }
+            .sidebar.open { transform: translateX(0); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+            .mobile-toggle { display: block; }
+            .main-content { grid-column: 1; padding: 5rem 1.5rem 2rem 1.5rem; }
+        }
+
+        /* Utilities */
+        .hidden { display: none !important; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    </style>
+</head>
+<body>
+
+<button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+
+<div class="layout">
+    
+    <aside class="sidebar" id="sidebar">
+        <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+            <a href="#" class="logo" onclick="switchTab('home')">PKR Partho.</a>
+            <img src="Patho.png" alt="Pijush Kanti Roy Partho" class="profile-img">
+            <div style="font-weight: 700; font-size: 1.1rem; color: var(--text-main);">P.K. Roy Partho</div>
+            <div class="sidebar-subtitle">Dinajpur, Bangladesh</div>
+        
+            <nav style="width: 100%;">
+                <ul class="nav-menu">
+                    <li><button class="nav-btn active" onclick="switchTab('home')"><i class="fas fa-user"></i> About Me</button></li>
+                    <li><button class="nav-btn" onclick="switchTab('publications')"><i class="fas fa-book"></i> Publications</button></li>
+                    <li><button class="nav-btn" onclick="switchTab('awards')"><i class="fas fa-trophy"></i> Honors & Awards</button></li>
+                    <li><button class="nav-btn" onclick="switchTab('blog')"><i class="fas fa-pen-nib"></i> ML/DL Articles</button></li>
+                </ul>
+            </nav>
+        </div>
+
+        <div class="sidebar-footer">
+            <button class="theme-toggle-btn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                <i id="theme-icon" class="fas fa-moon"></i>
+            </button>
+
+            <div class="contact-info">
+                <div><i class="fas fa-phone"></i> +880-1751-142775</div>
+                <div style="margin-top:5px"><i class="fas fa-envelope"></i> pijushkantiroy2040@gmail.com</div>
+            </div>
+            
+            <div class="social-icons">
+                <a href="https://scholar.google.com/citations?user=4y4xiVcAAAAJ&hl=en" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                <a href="https://github.com/InquietoPartho" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                <a href="https://linkedin.com/in/urslovelypartho" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+            </div>
+            <p style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-light);">&copy; 2027 Partho</p>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        
+        <div id="home-section">
+            <header>
+                <h1>Pijush Kanti Roy Partho</h1>
+                <p class="subtitle">ECE Undergrad @ HSTU · Explainable AI (XAI) for Healthcare</p>
+            </header>
+
+            <div class="quote-box">
+                "Just as electricity transformed almost everything 100 years ago, today I have a hard time thinking of an industry that I don’t think AI will transform in the next several years."
+                <span class="quote-author">— Andrew Ng</span>
+            </div>
+
+            <div class="intro-text">
+                <p style="margin-bottom: 1.5rem;">
+                    I am an undergraduate researcher in <strong>Electronics and Communication Engineering</strong> at Hajee Mohammad Danesh Science and Technology University (HSTU). 
+                    My research lies at the intersection of <strong>Deep Learning and Clinical Medicine</strong>, specifically focusing on <strong>Explainable Artificial Intelligence (XAI)</strong> to build transparent, interpretable, and trustworthy decision support systems.
+                </p>
+            </div>
+
+            <section>
+                <h2>Education</h2>
+                <div>
+                    <h3 style="margin-bottom:0;">Hajee Mohammad Danesh Science and Technology University</h3>
+                    <div style="font-family: 'Inter', sans-serif; color: var(--text-light);">B.Sc. (Engineering) in Electronics and Communication Engineering</div>
+                    <div style="margin-top: 0.5rem; color: var(--text-main);">
+                        <strong>CGPA: 3.71 / 4.00</strong> (after 4 semesters) • Expected Graduation: 2027
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2>Research Interests</h2>
+                <ul class="skill-list">
+                    <li class="skill-tag">Machine Learning & DL for Healthcare</li>
+                    <li class="skill-tag">Explainable AI (XAI)</li>
+                    <li class="skill-tag">Clinical Decision Support Systems</li>
+                    <li class="skill-tag">Medical Image Analysis</li>
+                    <li class="skill-tag">Interpretable Predictive Modeling</li>
+                </ul>
+            </section>
+
+            <section>
+                <h2>Technical Skills</h2>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Programming:</strong> Python, C++, Java
+                </div>
+                <div style="margin-bottom: 1rem;">
+                    <strong>Machine Learning:</strong> Classical ML, CNNs, Ensemble Learning, XAI (SHAP, Grad-CAM)
+                </div>
+                <div>
+                    <strong>Frameworks & Tools:</strong> PyTorch, TensorFlow, Scikit-learn, Docker, Git, Google Colab
+                </div>
+            </section>
+            
+            <div style="margin-top: 3rem;">
+                 <a href="cv.pdf" style="display: inline-block; background: var(--primary); color: white; padding: 10px 20px; border-radius: 6px; font-weight: 600; text-decoration: none;">Download Full CV <i class="fas fa-file-pdf" style="margin-left:5px"></i></a>
+            </div>
+        </div>
+
+        <div id="publications-section" class="hidden">
+            <h2>Research Publications</h2>
+            
+            <div class="pub-section-header">Peer-Reviewed Conference Papers</div>
+
+            <div class="pub-item">
+                <a href="https://doi.org/10.1109/ICCIT64611.2024.11021966" class="pub-title">Plant Leaf Disease Detection Incorporating IoT and XAI-Enhanced Deep Learning</a>
+                <div class="pub-meta">
+                    <span class="highlight-name">P. K. R. Partho</span>, M. A. H. Rafi, and P. Bhowmik
+                </div>
+                <div class="pub-meta">
+                    <em>27th International Conference on Computer and Information Technology (ICCIT)</em>, 2024. <span class="badge badge-conf">IEEE</span>
+                </div>
+            </div>
+
+            <div class="pub-item">
+                <a href="https://doi.org/10.1109/NCIM65934.2025.11159863" class="pub-title">An Interpretable Ensemble Framework Towards Efficient Hypertension Risk Assessment</a>
+                <div class="pub-meta">
+                    <span class="highlight-name">P. K. Roy Partho</span>, P. Bhowmik, and M. K. Nasir
+                </div>
+                <div class="pub-meta">
+                    <em>2nd International Conference on Next-Generation Computing, IoT and Machine Learning (NCIM)</em>, 2025. <span class="badge badge-conf">IEEE</span>
+                </div>
+            </div>
+
+            <div class="pub-section-header">Accepted / To Appear</div>
+
+            <div class="pub-item">
+                <div class="pub-title">XAI-Enhanced Hybrid Models for Effective Chronic Kidney Disease Prediction</div>
+                <div class="pub-meta"><span class="highlight-name">P. K. Roy Partho</span> et al.</div>
+                <div class="pub-meta"><em>11th IEEE International Conference on Sustainable Technology and Engineering (i-COSTE 2025)</em>, Washington, USA.</div>
+            </div>
+
+            <div class="pub-section-header">Book Chapters (In Press)</div>
+
+            <div class="pub-item">
+                <div class="pub-title">Ensemble Learning-Based Real-Time Dengue Prediction from Hematological Features with XAI</div>
+                <div class="pub-meta"><span class="highlight-name">P. K. Roy Partho</span> et al.</div>
+                <div class="pub-meta"><em>Lecture Notes in Networks and Systems</em>, Springer (BIM 2025). <span class="badge badge-book">Springer</span></div>
+            </div>
+            
+            <div class="pub-section-header">Journal Manuscripts Under Review</div>
+
+            <div class="pub-item">
+                <div class="pub-title">HypeXAI: An Interpretable Decision Support System for Hypertension Risk Assessment</div>
+                <div class="pub-meta">Under review at <strong>PLOS ONE</strong> (Q1). <span class="badge badge-review">Journal</span></div>
+            </div>
+
+            <div class="pub-item">
+                <div class="pub-title">LCC-Net: A Lightweight Attention-Based CNN for Multi-Organ Cancer Detection</div>
+                <div class="pub-meta">Under review at <strong>Computational Biology and Chemistry</strong>, Elsevier (Q2). <span class="badge badge-review">Journal</span></div>
+            </div>
+        </div>
+
+        <div id="awards-section" class="hidden">
+            <h2>Honors & Awards</h2>
+            
+            <div style="margin-bottom: 2rem;">
+                <h3 class="pub-title">Dean’s Award for Academic Excellence</h3>
+                <div class="pub-meta">Level–2, Department of Electronics and Communication Engineering, HSTU.</div>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h3 class="pub-title">President’s Scout Award</h3>
+                <div class="pub-meta">Highest national scouting honor, conferred by the President of the People’s Republic of Bangladesh.</div>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h3 class="pub-title">Community Development Award</h3>
+                <div class="pub-meta">National-level award conferred by the Prime Minister of Bangladesh.</div>
+            </div>
+
+            <div style="margin-bottom: 2rem;">
+                <h3 class="pub-title">National Champion</h3>
+                <div class="pub-meta">National Child and Youth Programming Contest (2018).</div>
+            </div>
+
+            <h2 style="margin-top: 3rem;">Academic Service</h2>
+            <div style="margin-bottom: 2rem;">
+                <h3 class="pub-title">Trainer, Microsoft Learn Student Ambassadors Bangladesh</h3>
+                <div class="pub-meta">Conducted sessions on Git, GitHub, and VS Code.</div>
+            </div>
+        </div>
+
+        <div id="blog-section" class="hidden">
+            
+            <div id="article-list">
+                <h2>ML & Deep Learning Articles</h2>
+                <p class="subtitle">Research breakdowns, tutorials, and thoughts on XAI.</p>
+
+                <article class="article-card" onclick="openArticle('shap-tutorial')">
+                    <div class="pub-meta">Feb 2026 • Tutorial</div>
+                    <div class="article-title">Getting Started with SHAP in Python</div>
+                    <p>A comprehensive guide on how to use Shapley Additive Explanations to interpret your Random Forest models.</p>
+                </article>
+
+                <article class="article-card">
+                    <div class="pub-meta">Jan 2026 • Bangla Article</div>
+                    <div class="article-title bangla-font">ডিপ লার্নিং: ব্ল্যাক বক্স সমস্যা এবং সমাধান</div>
+                    <p class="bangla-font">স্বাস্থ্যখাতে এআই ব্যবহারের ক্ষেত্রে মডেলের স্বচ্ছতা কেন জরুরি?</p>
+                </article>
+            </div>
+
+            <div id="shap-tutorial" class="article-full">
+                <div class="btn-back" onclick="closeArticle()"><i class="fas fa-arrow-left"></i> Back to Articles</div>
+                
+                <div class="article-header">
+                    <h1>Getting Started with SHAP in Python</h1>
+                    <div class="pub-meta">By P.K.R. Partho • Feb 2026 • <span class="badge badge-conf">XAI Tutorial</span></div>
+                </div>
+
+                <div class="article-content">
+                    <p>
+                        Machine learning models, especially Deep Learning and ensemble methods like Random Forest, are often treated as "Black Boxes." 
+                        In healthcare, this is unacceptable. Doctors need to know <em>why</em> a model predicts a high risk of hypertension.
+                    </p>
+                    <p>
+                        <strong>SHAP (Shapley Additive Explanations)</strong> is a game-theoretic approach to explain the output of any machine learning model.
+                    </p>
+
+                    <h3>1. Installation</h3>
+                    <p>First, we need to install the library. I recommend using `pip`.</p>
+<pre>
+pip install shap pandas scikit-learn matplotlib
+</pre>
+
+                    <h3>2. Loading Data and Training</h3>
+                    <p>For this example, we will use a standard dataset to predict diabetes progression.</p>
+<pre>
+import pandas as pd
+import shap
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+
+# Load data
+X, y = shap.datasets.diabetes()
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
+
+# Train a "Black Box" model
+model = RandomForestRegressor()
+model.fit(X_train, y_train)
+</pre>
+
+                    <h3>3. Calculating SHAP Values</h3>
+                    <p>This is where the magic happens. We create an explainer object and calculate the values.</p>
+<pre>
+# Create the explainer
+explainer = shap.TreeExplainer(model)
+
+# Calculate SHAP values
+shap_values = explainer.shap_values(X_test)
+</pre>
+
+                    <h3>4. Visualizing Global Importance</h3>
+                    <p>The Summary Plot is the most powerful tool in XAI. It shows which features matter most and how they impact the output.</p>
+                    
+                    <div class="img-container">
+                        <img src="SHAP.png" alt="SHAP Summary Plot">
+                        <div class="img-caption">Figure 1: A SHAP summary plot showing feature impact on model output.</div>
+                    </div>
+                    
+
+<pre>
+shap.summary_plot(shap_values, X_test)
+</pre>
+
+                    <h3>Conclusion</h3>
+                    <p>
+                        By using SHAP, we can turn a complex Random Forest into an interpretable tool. In my research on hypertension, 
+                        this allows us to tell clinicians exactly which biomarkers are driving the risk prediction.
+                    </p>
+                </div>
+                
+                <div class="btn-back" onclick="closeArticle()" style="margin-top: 3rem;"><i class="fas fa-arrow-left"></i> Back to Articles</div>
+            </div>
+            
+        </div>
+
+    </main>
+</div>
+
+<script>
+    // --- 1. Navigation Logic ---
+    function switchTab(tabName) {
+        // Hide all sections
+        const sections = ['home-section', 'publications-section', 'awards-section', 'blog-section'];
+        sections.forEach(id => document.getElementById(id).classList.add('hidden'));
+
+        // Remove active class from buttons
+        const navBtns = document.querySelectorAll('.nav-btn');
+        navBtns.forEach(btn => btn.classList.remove('active'));
+
+        // Show selected section and activate button
+        if(tabName === 'home') {
+            document.getElementById('home-section').classList.remove('hidden');
+            navBtns[0].classList.add('active');
+        } else if (tabName === 'publications') {
+            document.getElementById('publications-section').classList.remove('hidden');
+            navBtns[1].classList.add('active');
+        } else if (tabName === 'awards') {
+            document.getElementById('awards-section').classList.remove('hidden');
+            navBtns[2].classList.add('active');
+        } else if (tabName === 'blog') {
+            document.getElementById('blog-section').classList.remove('hidden');
+            // Ensure we start at list view when switching tabs
+            document.getElementById('article-list').style.display = 'block';
+            document.querySelectorAll('.article-full').forEach(a => a.style.display = 'none');
+            navBtns[3].classList.add('active');
+        }
+        
+        // Mobile: Close sidebar after click
+        if(window.innerWidth <= 900) {
+            document.getElementById('sidebar').classList.remove('open');
+        }
+        
+        // Scroll to top
+        window.scrollTo(0,0);
+    }
+
+    // --- 2. Article Logic ---
+    function openArticle(articleId) {
+        document.getElementById('article-list').style.display = 'none';
+        
+        // Hide all full articles just in case
+        document.querySelectorAll('.article-full').forEach(art => art.style.display = 'none');
+        
+        // Show specific article
+        document.getElementById(articleId).style.display = 'block';
+        window.scrollTo(0,0);
+    }
+
+    function closeArticle() {
+        document.querySelectorAll('.article-full').forEach(art => art.style.display = 'none');
+        document.getElementById('article-list').style.display = 'block';
+        window.scrollTo(0,0);
+    }
+
+    // --- 3. Mobile Sidebar Logic ---
+    function toggleSidebar() {
+        document.getElementById('sidebar').classList.toggle('open');
+    }
+
+    // --- 4. Theme Logic ---
+    const savedTheme = localStorage.getItem('theme');
+    const themeIcon = document.getElementById('theme-icon');
+    
+    // Apply saved theme on load
+    if (savedTheme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        themeIcon.classList.remove('fa-moon');
+        themeIcon.classList.add('fa-sun');
+    }
+
+    function toggleTheme() {
+        const currentTheme = document.documentElement.getAttribute('data-theme');
+        if (currentTheme === 'dark') {
+            document.documentElement.setAttribute('data-theme', 'light');
+            localStorage.setItem('theme', 'light');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        } else {
+            document.documentElement.setAttribute('data-theme', 'dark');
+            localStorage.setItem('theme', 'dark');
+            themeIcon.classList.remove('fa-moon');
+            themeIcon.classList.add('fa-sun');
+        }
+    }
+</script>
+
+</body>
+</html>
