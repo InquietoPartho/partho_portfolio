@@ -341,7 +341,7 @@
             <div class="intro-text">
                 <p style="margin-bottom: 1.5rem;">
                     I am an undergraduate researcher in <strong>Electronics and Communication Engineering</strong> at Hajee Mohammad Danesh Science and Technology University (HSTU). 
-                    My research lies at the intersection of <strong>Deep Learning and Clinical Medicine</strong>, specifically focusing on <strong>Explainable Artificial Intelligence (XAI)</strong> to build transparent, interpretable, and trustworthy decision support systems.
+                    My research lies at the intersection of <strong>Machine Learning, Deep Learning and Clinical Medicine</strong>, specifically focusing on <strong>Explainable Artificial Intelligence (XAI)</strong> to build transparent, interpretable, and trustworthy decision support systems.
                 </p>
             </div>
 
@@ -489,136 +489,195 @@
             </div>
 
             <div id="shap-tutorial" class="article-full">
-                <div class="btn-back" onclick="closeArticle()"><i class="fas fa-arrow-left"></i> Back to Articles</div>
-                
-                <div class="article-header">
-                    <h1>Getting Started with SHAP in Python</h1>
-                    <div class="pub-meta">By P.K.R. Partho • Feb 2026 • <span class="badge badge-conf">XAI Tutorial</span></div>
-                </div>
-
-                <div class="article-content">
-                    <p>
-                        Machine learning models, especially Deep Learning and ensemble methods like Random Forest, are often treated as "Black Boxes." 
-                        In healthcare, this is unacceptable. Doctors need to know <em>why</em> a model predicts a high risk of hypertension.
-                    </p>
-                    <p>
-                        <strong>SHAP (Shapley Additive Explanations)</strong> is a game-theoretic approach to explain the output of any machine learning model.
-                    </p>
-
-                    <h3>1. Installation</h3>
-                    <p>First, we need to install the library. I recommend using `pip`.</p>
-<pre>
-pip install shap pandas scikit-learn matplotlib
-</pre>
-
-                    <h3>2. Loading Data and Training</h3>
-                    <p>For this example, we will use a standard dataset to predict diabetes progression.</p>
-<pre>
-import pandas as pd
-import shap
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
-
-# Load data
-X, y = shap.datasets.diabetes()
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2)
-
-# Train a "Black Box" model
-model = RandomForestRegressor()
-model.fit(X_train, y_train)
-</pre>
-
-                    <h3>3. Calculating SHAP Values</h3>
-                    <p>This is where the magic happens. We create an explainer object and calculate the values.</p>
-<pre>
-# Create the explainer
-explainer = shap.TreeExplainer(model)
-
-# Calculate SHAP values
-shap_values = explainer.shap_values(X_test)
-</pre>
-
-                    <h3>4. Visualizing Global Importance</h3>
-                    <p>The Summary Plot is the most powerful tool in XAI. It shows which features matter most and how they impact the output.</p>
-                    
-                    <div class="img-container">
-                        <img src="SHAP.png" alt="SHAP Summary Plot">
-                        <div class="img-caption">Figure 1: A SHAP summary plot showing feature impact on model output.</div>
-                    </div>
-                    
-
-<pre>
-shap.summary_plot(shap_values, X_test)
-</pre>
-
-                    <h3>Conclusion</h3>
-                    <p>
-                        By using SHAP, we can turn a complex Random Forest into an interpretable tool. In my research on hypertension, 
-                        this allows us to tell clinicians exactly which biomarkers are driving the risk prediction.
-                    </p>
-                </div>
-                
-                <div class="btn-back" onclick="closeArticle()" style="margin-top: 3rem;"><i class="fas fa-arrow-left"></i> Back to Articles</div>
-            </div>
-
-            <div id="dl-blackbox" class="article-full">
     <div class="btn-back" onclick="closeArticle()"><i class="fas fa-arrow-left"></i> Back to Articles</div>
     
     <div class="article-header">
-        <h1 class="bangla-font" style="line-height: 1.4;">ডিপ লার্নিং: ব্ল্যাক বক্স সমস্যা এবং সমাধান</h1>
-        <div class="pub-meta">
-            By P.K.R. Partho • Jan 2026 • <span class="badge badge-conf">Bangla Article</span>
-        </div>
+        <h1>Demystifying the Black Box: A Comprehensive Guide to SHAP in Healthcare</h1>
+        <div class="pub-meta">By P.K.R. Partho • Feb 2026 • <span class="badge badge-conf">XAI Tutorial</span></div>
     </div>
 
-    <div class="article-content bangla-font">
+    <div class="article-content">
+        <p class="intro-lead">
+            In the realm of high-stakes decision-making, such as clinical diagnosis, accuracy is not enough. A Deep Neural Network might predict a 95% probability of hypertension, but without understanding the <em>rationale</em>, a clinician cannot trust the system. This brings us to the "Black Box" problem.
+        </p>
         <p>
-            বর্তমানে আর্টিফিশিয়াল ইন্টেলিজেন্স বা এআই (AI) প্রযুক্তির জগতে এক বিশাল বিপ্লব ঘটিয়েছে। বিশেষ করে <strong>Deep Learning (DL)</strong> মডেলগুলো ছবি শনাক্তকরণ (Image Recognition) থেকে শুরু করে প্রাকৃতিক ভাষা প্রক্রিয়াকরণ (NLP) পর্যন্ত মানুষের চেয়েও নির্ভুলভাবে কাজ করছে। কিন্তু এই সাফল্যের পেছনে একটি বড় সমস্যা লুকিয়ে আছে, যাকে গবেষকরা বলেন <strong>"Black Box Problem"</strong>।
+            <strong>SHAP (Shapley Additive Explanations)</strong>, introduced by Lundberg and Lee (2017), bridges this gap by unifying optimal credit allocation with local explanations. It is based on <strong>Cooperative Game Theory</strong>, treating features as players in a game where the payout is the model prediction.
         </p>
 
-        <h3 style="font-family: 'Anek Bangla', sans-serif;">ব্ল্যাক বক্স সমস্যা কী?</h3>
+        <h3>1. Theoretical Foundation: The Shapley Value</h3>
         <p>
-            সহজ কথায়, ব্ল্যাক বক্স হলো এমন একটি সিস্টেম যেখানে আমরা ইনপুট (Input) দেই এবং আউটপুট (Output) পাই, কিন্তু মাঝখানে কী ঘটছে তা আমাদের কাছে অজানা। ডিপ লার্নিং মডেল, বিশেষ করে <em>Deep Neural Networks</em>, লক্ষ লক্ষ প্যারামিটার এবং জটিল গাণিতিক ধাপে কাজ করে। 
+            At its core, SHAP calculates the <strong>marginal contribution</strong> of a feature to the prediction across all possible coalitions of features.
         </p>
+        <div class="quote-box" style="margin: 2rem 0; padding: 1.5rem; background: var(--bg-body); border-left: 4px solid var(--accent);">
+            "How much does knowing the patient's BMI change the prediction, given that we already know their Age and Blood Pressure?"
+        </div>
         <p>
-            উদাহরণস্বরূপ, একটি মডেল যদি কোনো রোগীর এক্স-রে (X-ray) দেখে বলে যে তার নিউমোনিয়া হয়েছে, কিন্তু <strong>কেন</strong> সে এই সিদ্ধান্তে পৌঁছাল তা ব্যাখ্যা করতে না পারে, তবে সেটি একটি ব্ল্যাক বক্স।
+            Unlike feature importance in Random Forests (which only shows global relevance), SHAP provides <strong>directionality</strong> (does it increase or decrease risk?) and <strong>magnitude</strong> for every single observation.
         </p>
 
-        <h3 style="font-family: 'Anek Bangla', sans-serif;">স্বাস্থ্যখাতে স্বচ্ছতা কেন জরুরি?</h3>
+        <h3>2. Environment Setup & Data Loading</h3>
+        <p>We will use the <code>shap</code> library along with a standard regression dataset (Diabetes progression) to simulate a clinical risk scoring model.</p>
+<pre>
+# 1. Install necessary libraries
+# pip install shap pandas scikit-learn matplotlib
+
+import shap
+import pandas as pd
+import numpy as np
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestRegressor
+
+# 2. Load Clinical Data (Diabetes Dataset)
+X, y = shap.datasets.diabetes()
+X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
+
+# 3. Train a Non-Linear Model (The "Black Box")
+model = RandomForestRegressor(n_estimators=100, max_depth=10)
+model.fit(X_train, y_train)
+</pre>
+
+        <h3>3. The TreeExplainer</h3>
         <p>
-            নেটফ্লিক্স বা ইউটিউব যখন কোনো ভিডিও রিকমেন্ড করে, তখন ভুল হলে খুব বেশি ক্ষতি নেই। কিন্তু চিকিৎসা বিজ্ঞানে বা স্বাস্থ্যখাতে (Healthcare) এআই ব্যবহারের ক্ষেত্রে ভুল সিদ্ধান্তের পরিণাম হতে পারে ভয়াবহ।
+            While SHAP is model-agnostic (via <code>KernelExplainer</code>), for tree-based models (Random Forest, XGBoost, LightGBM), we use the optimized <code>TreeExplainer</code>. This reduces computational complexity from exponential to linear time.
+        </p>
+<pre>
+# Initialize the explainer
+explainer = shap.TreeExplainer(model)
+
+# Calculate SHAP values for the test set
+shap_values = explainer.shap_values(X_test)
+</pre>
+
+        <h3>4. Global Interpretability: The Summary Plot</h3>
+        <p>
+            The summary plot provides a bird's-eye view of the model. It combines feature importance with feature effects.
         </p>
         <ul>
-            <li><strong>বিশ্বাসযোগ্যতা (Trust):</strong> একজন ডাক্তার বা ক্লিনিশিয়ান কখনো অন্ধভাবে মেশিনের সিদ্ধান্ত মেনে নেবেন না। তাদের জানতে হবে মডেলটি এক্স-রের কোন অংশ দেখে রোগ শনাক্ত করেছে।</li>
-            <li><strong>ভুল বা বায়াস (Bias):</strong> মডেলটি কি সত্যিই রোগ শনাক্ত করছে, নাকি ছবির ব্যাকগ্রাউন্ড বা মেশিনের কোনো দাগ দেখে ভুল সিদ্ধান্ত দিচ্ছে? ব্যাখ্যা না থাকলে এটি ধরা অসম্ভব।</li>
-            <li><strong>আইনি এবং নৈতিক দায়বদ্ধতা:</strong> ভুল চিকিৎসার কারণে রোগীর ক্ষতি হলে তার দায়ভার কে নেবে? এজন্য মডেলের স্বচ্ছতা বা Transparency অত্যন্ত জরুরি।</li>
+            <li><strong>Y-Axis:</strong> Features ranked by importance.</li>
+            <li><strong>X-Axis:</strong> The SHAP value (impact on model output).</li>
+            <li><strong>Color:</strong> Feature value (Red = High, Blue = Low).</li>
         </ul>
 
-        <h3 style="font-family: 'Anek Bangla', sans-serif;">সমাধান: Explainable AI (XAI)</h3>
-        <p>
-            ব্ল্যাক বক্স সমস্যার সমাধানের জন্যই <strong>Explainable AI (XAI)</strong> বা ব্যাখ্যাযোগ্য এআই-এর উদ্ভব। XAI-এর মূল লক্ষ্য হলো মডেলের পারফরম্যান্স ঠিক রেখে তাকে মানুষের বোধগম্য করে তোলা।
-        </p>
-        <p>আমার গবেষণায় আমি মূলত দুটি জনপ্রিয় মেথড ব্যবহার করি:</p>
-        
-        <div style="background: var(--bg-body); padding: 1.5rem; border-left: 4px solid var(--accent); margin: 1.5rem 0;">
-            <strong>১. SHAP (Shapley Additive Explanations):</strong> এটি গেম থিওরি ব্যবহার করে প্রতিটি ফিচারের গুরুত্ব (Feature Importance) বের করে। যেমন, ডায়াবেটিস প্রেডিকশনে রক্তচাপ নাকি ইনসুলিন লেভেল বেশি প্রভাব ফেলেছে, তা SHAP বলে দিতে পারে।
-            <br><br>
-            <strong>২. Grad-CAM (Gradient-weighted Class Activation Mapping):</strong> এটি মূলত মেডিকেল ইমেজিং-এর জন্য ব্যবহৃত হয়। এটি ইমেজের ওপর একটি "হিটম্যাপ" (Heatmap) তৈরি করে দেখিয়ে দেয় যে মডেলটি ছবির কোন অংশের ওপর ফোকাস করে সিদ্ধান্ত নিয়েছে।
+        <div class="img-container">
+            <img src="SHAP.png" alt="SHAP Summary Plot">
+            
+            <div class="img-caption">Figure 1: Global feature importance. Notice how high BMI (Red dots) pushes the SHAP value to the right (positive impact on disease progression).</div>
         </div>
 
-        <h3 style="font-family: 'Anek Bangla', sans-serif;">উপসংহার</h3>
+<pre>
+import matplotlib.pyplot as plt
+# Plot summary
+shap.summary_plot(shap_values, X_test, show=False)
+plt.title("Global Feature Importance")
+plt.show()
+</pre>
+
+        <h3>5. Local Interpretability: The Force Plot</h3>
         <p>
-            ভবিষ্যতে স্বাস্থ্যখাতে এআই-এর পূর্ণাঙ্গ ব্যবহারের জন্য "Black Box" থেকে বের হয়ে আসা আবশ্যিক। শুধুমাত্র নির্ভুলতা (Accuracy) দিয়ে ক্লিনিকাল ফিল্ডে এআই প্রতিষ্ঠিত করা সম্ভব নয়; এর সাথে প্রয়োজন <strong>স্বচ্ছতা (Interpretability)</strong> এবং <strong>বিশ্বাসযোগ্যতা (Trustworthiness)</strong>।
+            In healthcare, we treat <em>patients</em>, not datasets. The <strong>Force Plot</strong> explains a single prediction. It shows how features push the prediction higher (red) or lower (blue) from the baseline.
         </p>
+        
+        <div class="img-container">
+            <img src="shap_force_plot.png" alt="SHAP Force Plot">
+            <div class="img-caption">Figure 2: Local explanation for a single patient. The base value is the average prediction, while arrows show how specific biomarkers shift the risk score.</div>
+        </div>
+
+<pre>
+# Visualize the first patient in the test set
+shap.initjs()
+shap.force_plot(explainer.expected_value, shap_values[0,:], X_test.iloc[0,:])
+</pre>
+
+        <h3>6. Feature Interaction: Dependence Plot</h3>
+        <p>
+            Biological systems are complex; biomarkers rarely act in isolation. The <strong>Dependence Plot</strong> allows us to see how the effect of one feature changes depending on the value of another (Interaction Effects).
+        </p>
+
+        <div class="img-container">
+            <img src="dependence_plot.png" alt="SHAP Dependence Plot">
+            <div class="img-caption">Figure 3: Dependence plot showing interaction between BMI and Blood Pressure (BP). Notice how the impact of BMI on risk varies with BP levels.</div>
+        </div>
+<pre>
+# Interaction between BMI and BP
+shap.dependence_plot("bmi", shap_values, X_test, interaction_index="bp")
+</pre>
+
+        <h3>Conclusion</h3>
+        <p>
+            Implementing SHAP transforms a "Black Box" into a "Glass Box." For my research in hypertension risk assessment, this interpretability allows us to validate that the model is learning biologically plausible patterns rather than spurious correlations.
+        </p>
+
+        <div style="margin-top: 3rem; border-top: 1px solid var(--border); padding-top: 1rem;">
+            <h4>References</h4>
+            <ul style="font-size: 0.9rem; color: var(--text-muted); list-style: none; padding-left: 0;">
+                <li style="margin-bottom: 0.5rem;">[1] Lundberg, S. M., & Lee, S. I. (2017). "A unified approach to interpreting model predictions." <em>Advances in neural information processing systems</em>, 30.</li>
+                <li style="margin-bottom: 0.5rem;">[2] Molnar, C. (2020). <em>Interpretable Machine Learning</em>. Lulu.com.</li>
+                <li>[3] Adadi, A., & Berrada, M. (2018). "Peeking inside the black-box: a survey on Explainable Artificial Intelligence (XAI)." <em>IEEE access</em>, 6, 52138-52160.</li>
+            </ul>
+        </div>
     </div>
     
     <div class="btn-back" onclick="closeArticle()" style="margin-top: 3rem;"><i class="fas fa-arrow-left"></i> Back to Articles</div>
 </div>
-            
-        </div>
 
-    </main>
-</div>
+            <div id="dl-blackbox" class="article-full">
+            <div class="btn-back" onclick="closeArticle()"><i class="fas fa-arrow-left"></i> Back to Articles</div>
+            
+            <div class="article-header">
+                <h1 class="bangla-font" style="line-height: 1.4;">ডিপ লার্নিং: ব্ল্যাক বক্স সমস্যা এবং সমাধান</h1>
+                <div class="pub-meta">
+                    By P.K.R. Partho • Jan 2026 • <span class="badge badge-conf">Bangla Article</span>
+                </div>
+            </div>
+
+            <div class="article-content bangla-font">
+                <p>
+                    বর্তমানে আর্টিফিশিয়াল ইন্টেলিজেন্স বা এআই (AI) প্রযুক্তির জগতে এক বিশাল বিপ্লব ঘটিয়েছে। বিশেষ করে <strong>Deep Learning (DL)</strong> মডেলগুলো ছবি শনাক্তকরণ (Image Recognition) থেকে শুরু করে প্রাকৃতিক ভাষা প্রক্রিয়াকরণ (NLP) পর্যন্ত মানুষের চেয়েও নির্ভুলভাবে কাজ করছে। কিন্তু এই সাফল্যের পেছনে একটি বড় সমস্যা লুকিয়ে আছে, যাকে গবেষকরা বলেন <strong>"Black Box Problem"</strong>।
+                </p>
+
+                <h3 style="font-family: 'Anek Bangla', sans-serif;">ব্ল্যাক বক্স সমস্যা কী?</h3>
+                <p>
+                    সহজ কথায়, ব্ল্যাক বক্স হলো এমন একটি সিস্টেম যেখানে আমরা ইনপুট (Input) দেই এবং আউটপুট (Output) পাই, কিন্তু মাঝখানে কী ঘটছে তা আমাদের কাছে অজানা। ডিপ লার্নিং মডেল, বিশেষ করে <em>Deep Neural Networks</em>, লক্ষ লক্ষ প্যারামিটার এবং জটিল গাণিতিক ধাপে কাজ করে। 
+                </p>
+                <p>
+                    উদাহরণস্বরূপ, একটি মডেল যদি কোনো রোগীর এক্স-রে (X-ray) দেখে বলে যে তার নিউমোনিয়া হয়েছে, কিন্তু <strong>কেন</strong> সে এই সিদ্ধান্তে পৌঁছাল তা ব্যাখ্যা করতে না পারে, তবে সেটি একটি ব্ল্যাক বক্স।
+                </p>
+
+                <h3 style="font-family: 'Anek Bangla', sans-serif;">স্বাস্থ্যখাতে স্বচ্ছতা কেন জরুরি?</h3>
+                <p>
+                    নেটফ্লিক্স বা ইউটিউব যখন কোনো ভিডিও রিকমেন্ড করে, তখন ভুল হলে খুব বেশি ক্ষতি নেই। কিন্তু চিকিৎসা বিজ্ঞানে বা স্বাস্থ্যখাতে (Healthcare) এআই ব্যবহারের ক্ষেত্রে ভুল সিদ্ধান্তের পরিণাম হতে পারে ভয়াবহ।
+                </p>
+                <ul>
+                    <li><strong>বিশ্বাসযোগ্যতা (Trust):</strong> একজন ডাক্তার বা ক্লিনিশিয়ান কখনো অন্ধভাবে মেশিনের সিদ্ধান্ত মেনে নেবেন না। তাদের জানতে হবে মডেলটি এক্স-রের কোন অংশ দেখে রোগ শনাক্ত করেছে।</li>
+                    <li><strong>ভুল বা বায়াস (Bias):</strong> মডেলটি কি সত্যিই রোগ শনাক্ত করছে, নাকি ছবির ব্যাকগ্রাউন্ড বা মেশিনের কোনো দাগ দেখে ভুল সিদ্ধান্ত দিচ্ছে? ব্যাখ্যা না থাকলে এটি ধরা অসম্ভব।</li>
+                    <li><strong>আইনি এবং নৈতিক দায়বদ্ধতা:</strong> ভুল চিকিৎসার কারণে রোগীর ক্ষতি হলে তার দায়ভার কে নেবে? এজন্য মডেলের স্বচ্ছতা বা Transparency অত্যন্ত জরুরি।</li>
+                </ul>
+
+                <h3 style="font-family: 'Anek Bangla', sans-serif;">সমাধান: Explainable AI (XAI)</h3>
+                <p>
+                    ব্ল্যাক বক্স সমস্যার সমাধানের জন্যই <strong>Explainable AI (XAI)</strong> বা ব্যাখ্যাযোগ্য এআই-এর উদ্ভব। XAI-এর মূল লক্ষ্য হলো মডেলের পারফরম্যান্স ঠিক রেখে তাকে মানুষের বোধগম্য করে তোলা।
+                </p>
+                <p>আমার গবেষণায় আমি মূলত দুটি জনপ্রিয় মেথড ব্যবহার করি:</p>
+                
+                <div style="background: var(--bg-body); padding: 1.5rem; border-left: 4px solid var(--accent); margin: 1.5rem 0;">
+                    <strong>১. SHAP (Shapley Additive Explanations):</strong> এটি গেম থিওরি ব্যবহার করে প্রতিটি ফিচারের গুরুত্ব (Feature Importance) বের করে। যেমন, ডায়াবেটিস প্রেডিকশনে রক্তচাপ নাকি ইনসুলিন লেভেল বেশি প্রভাব ফেলেছে, তা SHAP বলে দিতে পারে।
+                    <br><br>
+                    <strong>২. Grad-CAM (Gradient-weighted Class Activation Mapping):</strong> এটি মূলত মেডিকেল ইমেজিং-এর জন্য ব্যবহৃত হয়। এটি ইমেজের ওপর একটি "হিটম্যাপ" (Heatmap) তৈরি করে দেখিয়ে দেয় যে মডেলটি ছবির কোন অংশের ওপর ফোকাস করে সিদ্ধান্ত নিয়েছে।
+                </div>
+
+                <h3 style="font-family: 'Anek Bangla', sans-serif;">উপসংহার</h3>
+                <p>
+                    ভবিষ্যতে স্বাস্থ্যখাতে এআই-এর পূর্ণাঙ্গ ব্যবহারের জন্য "Black Box" থেকে বের হয়ে আসা আবশ্যিক। শুধুমাত্র নির্ভুলতা (Accuracy) দিয়ে ক্লিনিকাল ফিল্ডে এআই প্রতিষ্ঠিত করা সম্ভব নয়; এর সাথে প্রয়োজন <strong>স্বচ্ছতা (Interpretability)</strong> এবং <strong>বিশ্বাসযোগ্যতা (Trustworthiness)</strong>।
+                </p>
+            </div>
+            
+            <div class="btn-back" onclick="closeArticle()" style="margin-top: 3rem;"><i class="fas fa-arrow-left"></i> Back to Articles</div>
+        </div>
+                    
+                </div>
+
+            </main>
+        </div>
 
 <script>
     // --- 1. Navigation Logic ---
