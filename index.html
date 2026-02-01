@@ -481,7 +481,7 @@
                     <p>A comprehensive guide on how to use Shapley Additive Explanations to interpret your Random Forest models.</p>
                 </article>
 
-                <article class="article-card">
+                    <article class="article-card" onclick="openArticle('dl-blackbox')">
                     <div class="pub-meta">Jan 2026 • Bangla Article</div>
                     <div class="article-title bangla-font">ডিপ লার্নিং: ব্ল্যাক বক্স সমস্যা এবং সমাধান</div>
                     <p class="bangla-font">স্বাস্থ্যখাতে এআই ব্যবহারের ক্ষেত্রে মডেলের স্বচ্ছতা কেন জরুরি?</p>
@@ -560,6 +560,60 @@ shap.summary_plot(shap_values, X_test)
                 
                 <div class="btn-back" onclick="closeArticle()" style="margin-top: 3rem;"><i class="fas fa-arrow-left"></i> Back to Articles</div>
             </div>
+
+            <div id="dl-blackbox" class="article-full">
+    <div class="btn-back" onclick="closeArticle()"><i class="fas fa-arrow-left"></i> Back to Articles</div>
+    
+    <div class="article-header">
+        <h1 class="bangla-font" style="line-height: 1.4;">ডিপ লার্নিং: ব্ল্যাক বক্স সমস্যা এবং সমাধান</h1>
+        <div class="pub-meta">
+            By P.K.R. Partho • Jan 2026 • <span class="badge badge-conf">Bangla Article</span>
+        </div>
+    </div>
+
+    <div class="article-content bangla-font">
+        <p>
+            বর্তমানে আর্টিফিশিয়াল ইন্টেলিজেন্স বা এআই (AI) প্রযুক্তির জগতে এক বিশাল বিপ্লব ঘটিয়েছে। বিশেষ করে <strong>Deep Learning (DL)</strong> মডেলগুলো ছবি শনাক্তকরণ (Image Recognition) থেকে শুরু করে প্রাকৃতিক ভাষা প্রক্রিয়াকরণ (NLP) পর্যন্ত মানুষের চেয়েও নির্ভুলভাবে কাজ করছে। কিন্তু এই সাফল্যের পেছনে একটি বড় সমস্যা লুকিয়ে আছে, যাকে গবেষকরা বলেন <strong>"Black Box Problem"</strong>।
+        </p>
+
+        <h3 style="font-family: 'Anek Bangla', sans-serif;">ব্ল্যাক বক্স সমস্যা কী?</h3>
+        <p>
+            সহজ কথায়, ব্ল্যাক বক্স হলো এমন একটি সিস্টেম যেখানে আমরা ইনপুট (Input) দেই এবং আউটপুট (Output) পাই, কিন্তু মাঝখানে কী ঘটছে তা আমাদের কাছে অজানা। ডিপ লার্নিং মডেল, বিশেষ করে <em>Deep Neural Networks</em>, লক্ষ লক্ষ প্যারামিটার এবং জটিল গাণিতিক ধাপে কাজ করে। 
+        </p>
+        <p>
+            উদাহরণস্বরূপ, একটি মডেল যদি কোনো রোগীর এক্স-রে (X-ray) দেখে বলে যে তার নিউমোনিয়া হয়েছে, কিন্তু <strong>কেন</strong> সে এই সিদ্ধান্তে পৌঁছাল তা ব্যাখ্যা করতে না পারে, তবে সেটি একটি ব্ল্যাক বক্স।
+        </p>
+
+        <h3 style="font-family: 'Anek Bangla', sans-serif;">স্বাস্থ্যখাতে স্বচ্ছতা কেন জরুরি?</h3>
+        <p>
+            নেটফ্লিক্স বা ইউটিউব যখন কোনো ভিডিও রিকমেন্ড করে, তখন ভুল হলে খুব বেশি ক্ষতি নেই। কিন্তু চিকিৎসা বিজ্ঞানে বা স্বাস্থ্যখাতে (Healthcare) এআই ব্যবহারের ক্ষেত্রে ভুল সিদ্ধান্তের পরিণাম হতে পারে ভয়াবহ।
+        </p>
+        <ul>
+            <li><strong>বিশ্বাসযোগ্যতা (Trust):</strong> একজন ডাক্তার বা ক্লিনিশিয়ান কখনো অন্ধভাবে মেশিনের সিদ্ধান্ত মেনে নেবেন না। তাদের জানতে হবে মডেলটি এক্স-রের কোন অংশ দেখে রোগ শনাক্ত করেছে।</li>
+            <li><strong>ভুল বা বায়াস (Bias):</strong> মডেলটি কি সত্যিই রোগ শনাক্ত করছে, নাকি ছবির ব্যাকগ্রাউন্ড বা মেশিনের কোনো দাগ দেখে ভুল সিদ্ধান্ত দিচ্ছে? ব্যাখ্যা না থাকলে এটি ধরা অসম্ভব।</li>
+            <li><strong>আইনি এবং নৈতিক দায়বদ্ধতা:</strong> ভুল চিকিৎসার কারণে রোগীর ক্ষতি হলে তার দায়ভার কে নেবে? এজন্য মডেলের স্বচ্ছতা বা Transparency অত্যন্ত জরুরি।</li>
+        </ul>
+
+        <h3 style="font-family: 'Anek Bangla', sans-serif;">সমাধান: Explainable AI (XAI)</h3>
+        <p>
+            ব্ল্যাক বক্স সমস্যার সমাধানের জন্যই <strong>Explainable AI (XAI)</strong> বা ব্যাখ্যাযোগ্য এআই-এর উদ্ভব। XAI-এর মূল লক্ষ্য হলো মডেলের পারফরম্যান্স ঠিক রেখে তাকে মানুষের বোধগম্য করে তোলা।
+        </p>
+        <p>আমার গবেষণায় আমি মূলত দুটি জনপ্রিয় মেথড ব্যবহার করি:</p>
+        
+        <div style="background: var(--bg-body); padding: 1.5rem; border-left: 4px solid var(--accent); margin: 1.5rem 0;">
+            <strong>১. SHAP (Shapley Additive Explanations):</strong> এটি গেম থিওরি ব্যবহার করে প্রতিটি ফিচারের গুরুত্ব (Feature Importance) বের করে। যেমন, ডায়াবেটিস প্রেডিকশনে রক্তচাপ নাকি ইনসুলিন লেভেল বেশি প্রভাব ফেলেছে, তা SHAP বলে দিতে পারে।
+            <br><br>
+            <strong>২. Grad-CAM (Gradient-weighted Class Activation Mapping):</strong> এটি মূলত মেডিকেল ইমেজিং-এর জন্য ব্যবহৃত হয়। এটি ইমেজের ওপর একটি "হিটম্যাপ" (Heatmap) তৈরি করে দেখিয়ে দেয় যে মডেলটি ছবির কোন অংশের ওপর ফোকাস করে সিদ্ধান্ত নিয়েছে।
+        </div>
+
+        <h3 style="font-family: 'Anek Bangla', sans-serif;">উপসংহার</h3>
+        <p>
+            ভবিষ্যতে স্বাস্থ্যখাতে এআই-এর পূর্ণাঙ্গ ব্যবহারের জন্য "Black Box" থেকে বের হয়ে আসা আবশ্যিক। শুধুমাত্র নির্ভুলতা (Accuracy) দিয়ে ক্লিনিকাল ফিল্ডে এআই প্রতিষ্ঠিত করা সম্ভব নয়; এর সাথে প্রয়োজন <strong>স্বচ্ছতা (Interpretability)</strong> এবং <strong>বিশ্বাসযোগ্যতা (Trustworthiness)</strong>।
+        </p>
+    </div>
+    
+    <div class="btn-back" onclick="closeArticle()" style="margin-top: 3rem;"><i class="fas fa-arrow-left"></i> Back to Articles</div>
+</div>
             
         </div>
 
