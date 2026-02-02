@@ -41,6 +41,21 @@
         }, {});
     }
 
+    async function fetchPublishedArticles() {
+        const { data, error } = await supabase
+            .from("articles")
+            .select("*")
+            .eq("status", "published")
+            .order("created_at", { ascending: false });
+
+        if (error) {
+            console.warn("Failed to fetch articles", error);
+            return null;
+        }
+        return data || [];
+    }
+
     window.trackArticleView = incrementView;
     window.fetchTotalViews = fetchTotalViews;
+    window.fetchPublishedArticles = fetchPublishedArticles;
 })();

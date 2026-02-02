@@ -8,6 +8,7 @@
     }
 
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    window.supabaseClient = supabase;
 
     const loginCard = document.getElementById("login-card");
     const analyticsCard = document.getElementById("analytics-card");
@@ -33,6 +34,9 @@
         await loadViews();
         loginCard.classList.add("hidden");
         analyticsCard.classList.remove("hidden");
+        if (window.initAdminEditor) {
+            window.initAdminEditor();
+        }
     }
 
     async function loadViews() {
@@ -86,6 +90,9 @@
             loadViews();
             loginCard.classList.add("hidden");
             analyticsCard.classList.remove("hidden");
+            if (window.initAdminEditor) {
+                window.initAdminEditor();
+            }
         }
     });
 })();

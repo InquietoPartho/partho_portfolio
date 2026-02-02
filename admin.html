@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Analytics | P.K.R. Partho</title>
+    <meta name="robots" content="noindex,nofollow">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.snow.css" rel="stylesheet">
     <style>
         body {
             font-family: 'Source Serif 4', serif;
@@ -54,6 +56,12 @@
         th { color: #475569; font-weight: 600; }
         .hidden { display: none; }
         .error { color: #b91c1c; margin-top: 0.5rem; }
+        .tabs { display: flex; gap: 0.6rem; margin-bottom: 1rem; }
+        .tab-btn { background: #e2e8f0; color: #0f172a; border: none; padding: 0.4rem 0.9rem; border-radius: 999px; cursor: pointer; font-weight: 600; }
+        .tab-btn.active { background: #2563eb; color: #fff; }
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+        .editor { height: 260px; background: #fff; }
+        .help { font-size: 0.9rem; color: #64748b; margin-top: 0.4rem; }
     </style>
 </head>
 <body>
@@ -72,29 +80,130 @@
         </div>
 
         <div class="card hidden" id="analytics-card">
-            <div style="display:flex; justify-content: space-between; align-items: center;">
-                <h2>Article Views</h2>
-                <div>
-                    <button id="refresh-btn" class="secondary">Refresh</button>
-                    <button id="logout-btn" class="secondary">Logout</button>
-                </div>
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="views">Analytics</button>
+                <button class="tab-btn" data-tab="editor">Editor</button>
             </div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Article</th>
-                        <th>Views</th>
-                        <th>Reads (This Month)</th>
-                    </tr>
-                </thead>
-                <tbody id="views-table"></tbody>
-            </table>
+
+            <div id="tab-views">
+                <div style="display:flex; justify-content: space-between; align-items: center;">
+                    <h2>Article Views</h2>
+                    <div>
+                        <button id="refresh-btn" class="secondary">Refresh</button>
+                        <button id="logout-btn" class="secondary">Logout</button>
+                    </div>
+                </div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Article</th>
+                            <th>Views</th>
+                            <th>Reads (This Month)</th>
+                        </tr>
+                    </thead>
+                    <tbody id="views-table"></tbody>
+                </table>
+            </div>
+
+            <div id="tab-editor" class="hidden">
+                <h2>Publish Article</h2>
+                <div class="grid">
+                    <div>
+                        <label for="article-id">Slug (unique id)</label>
+                        <input id="article-id" placeholder="atomic-habits-bn" />
+                    </div>
+                    <div>
+                        <label for="article-status">Status</label>
+                        <input id="article-status" placeholder="published" value="published" />
+                    </div>
+                    <div>
+                        <label for="list-meta">List Meta</label>
+                        <input id="list-meta" placeholder="Feb 2026 • Bangla Article • 20+ min read" />
+                    </div>
+                    <div>
+                        <label for="list-title">List Title (BN)</label>
+                        <input id="list-title" placeholder="অ্যাটমিক হ্যাবিটস: ..." />
+                    </div>
+                    <div>
+                        <label for="list-title-class">List Title Class</label>
+                        <input id="list-title-class" placeholder="bangla-font" />
+                    </div>
+                    <div>
+                        <label for="list-summary">List Summary (BN)</label>
+                        <input id="list-summary" placeholder="সংক্ষিপ্ত সারাংশ..." />
+                    </div>
+                    <div>
+                        <label for="list-summary-class">List Summary Class</label>
+                        <input id="list-summary-class" placeholder="bangla-font" />
+                    </div>
+                    <div>
+                        <label for="header-title">Header Title (BN)</label>
+                        <input id="header-title" placeholder="অ্যাটমিক হ্যাবিটস..." />
+                    </div>
+                    <div>
+                        <label for="header-title-class">Header Title Class</label>
+                        <input id="header-title-class" placeholder="bangla-font" />
+                    </div>
+                    <div>
+                        <label for="header-meta">Header Meta (BN)</label>
+                        <input id="header-meta" placeholder="By ... • ..." />
+                    </div>
+                    <div>
+                        <label for="translation-title">Translation Title (EN)</label>
+                        <input id="translation-title" placeholder="Atomic Habits..." />
+                    </div>
+                    <div>
+                        <label for="translation-title-class">Translation Title Class</label>
+                        <input id="translation-title-class" placeholder="" />
+                    </div>
+                    <div>
+                        <label for="translation-meta">Translation Meta (EN)</label>
+                        <input id="translation-meta" placeholder="By ... • ..." />
+                    </div>
+                </div>
+
+                <div style="margin-top:1rem;">
+                    <label>Content (Bangla)</label>
+                    <div id="editor-bn" class="editor"></div>
+                </div>
+                <div style="margin-top:1rem;">
+                    <label>Content (English)</label>
+                    <div id="editor-en" class="editor"></div>
+                </div>
+
+                <div class="grid" style="margin-top: 1rem;">
+                    <div>
+                        <label for="lottie-json">Lottie JSON array</label>
+                        <input id="lottie-json" placeholder='[{"containerId":"...","path":"..."}]' />
+                        <div class="help">Optional. Use absolute/relative URLs.</div>
+                    </div>
+                    <div>
+                        <label for="image-url">Insert image URL</label>
+                        <input id="image-url" placeholder="https://.../image.png" />
+                        <button id="insert-image-btn" class="secondary" type="button">Insert Image</button>
+                    </div>
+                    <div>
+                        <label for="lottie-url">Insert lottie JSON URL</label>
+                        <input id="lottie-url" placeholder="https://.../animation.json" />
+                        <label for="lottie-container">Lottie container id</label>
+                        <input id="lottie-container" placeholder="atomic-habits-animation" />
+                        <button id="insert-lottie-btn" class="secondary" type="button">Insert Lottie</button>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1rem;">
+                    <button id="save-article-btn">Publish</button>
+                </div>
+                <div id="editor-error" class="error hidden"></div>
+            </div>
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/quill@1.3.7/dist/quill.min.js"></script>
     <script src="assets/supabase-config.js"></script>
     <script src="assets/blog-articles.js"></script>
     <script src="assets/admin-analytics.js"></script>
+    <script src="assets/admin-editor.js"></script>
 </body>
 </html>

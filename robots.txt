@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://inquietopartho.github.io/partho_portfolio/sitemap.xml

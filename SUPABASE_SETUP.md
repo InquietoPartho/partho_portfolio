@@ -8,6 +8,27 @@
 Run this SQL in Supabase SQL editor:
 
 ```sql
+create table if not exists public.articles (
+  id text primary key,
+  status text not null default 'published',
+  list_meta text,
+  list_title text,
+  list_title_class text,
+  list_summary text,
+  list_summary_class text,
+  header_title text,
+  header_title_class text,
+  header_meta text,
+  translation_title text,
+  translation_title_class text,
+  translation_meta text,
+  content_html text,
+  translation_html text,
+  lottie jsonb not null default '[]'::jsonb,
+  created_at timestamptz not null default now(),
+  updated_at timestamptz not null default now()
+);
+
 create table if not exists public.article_views (
   article_id text primary key,
   views bigint not null default 0,
@@ -63,6 +84,7 @@ $$;
 ```sql
 alter table public.article_views enable row level security;
 alter table public.article_views_monthly enable row level security;
+alter table public.articles enable row level security;
 
 -- Allow anonymous users to call the increment function (RPC), but not select data.
 -- No select policy for anon users.
@@ -79,6 +101,19 @@ create policy "Public can read total views"
   for select
   to anon
   using (true);
+
+create policy "Public can read published articles"
+  on public.articles
+  for select
+  to anon
+  using (status = 'published');
+
+create policy "Admin can manage articles"
+  on public.articles
+  for all
+  to authenticated
+  using (auth.jwt() ->> 'email' = 'pijushkantiroy2040@gmail.com')
+  with check (auth.jwt() ->> 'email' = 'pijushkantiroy2040@gmail.com');
 
 create policy "Public can read monthly views"
   on public.article_views_monthly

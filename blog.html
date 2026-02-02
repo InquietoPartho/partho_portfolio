@@ -4,6 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Blog | P.K.R. Partho</title>
+        <meta name="description" content="ML/DL articles on explainable AI, tutorials, and research notes by P.K.R. Partho.">
+        <meta name="robots" content="index,follow">
+        <link rel="canonical" href="https://inquietopartho.github.io/partho_portfolio/blog.html">
+        <meta property="og:title" content="ML/DL Articles | P.K.R. Partho">
+        <meta property="og:description" content="ML/DL articles on explainable AI, tutorials, and research notes.">
+        <meta property="og:type" content="website">
+        <meta property="og:url" content="https://inquietopartho.github.io/partho_portfolio/blog.html">
+        <meta property="og:image" content="https://inquietopartho.github.io/partho_portfolio/assets/images/Patho.png">
+        <meta name="twitter:card" content="summary_large_image">
+        <meta name="twitter:title" content="ML/DL Articles | P.K.R. Partho">
+        <meta name="twitter:description" content="ML/DL articles on explainable AI, tutorials, and research notes.">
+        <meta name="twitter:image" content="https://inquietopartho.github.io/partho_portfolio/assets/images/Patho.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;600&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
@@ -422,7 +434,27 @@
             }
         });
 
-        const articles = window.blogArticles || [];
+        let articles = [];
+
+        function normalizeArticle(row) {
+            return {
+                id: row.id,
+                listMeta: row.list_meta || "",
+                listTitle: row.list_title || "",
+                listTitleClass: row.list_title_class || "",
+                listSummary: row.list_summary || "",
+                listSummaryClass: row.list_summary_class || "",
+                headerTitle: row.header_title || row.list_title || "",
+                headerTitleClass: row.header_title_class || "",
+                headerMeta: row.header_meta || "",
+                translationTitle: row.translation_title || "",
+                translationTitleClass: row.translation_title_class || "",
+                translationMeta: row.translation_meta || "",
+                contentHtml: row.content_html || "",
+                translationHtml: row.translation_html || "",
+                lottie: row.lottie || []
+            };
+        }
 
         function renderArticleList() {
             const listContainer = document.getElementById('articles-container');
@@ -575,9 +607,20 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', () => {
+        document.addEventListener('DOMContentLoaded', async () => {
             const savedTheme = localStorage.getItem('theme') || 'light';
             applyTheme(savedTheme);
+
+            if (window.fetchPublishedArticles) {
+                const data = await window.fetchPublishedArticles();
+                if (data && data.length) {
+                    articles = data.map(normalizeArticle);
+                }
+            }
+            if (!articles.length) {
+                articles = window.blogArticles || [];
+            }
+
             renderArticleList();
             const hashId = window.location.hash.replace('#', '');
             if (hashId) {
