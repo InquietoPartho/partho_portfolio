@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Publications | P.K.R. Partho</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-w: 280px;
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --text-main: #1f2937;
+            --text-light: #4b5563;
+            --bg-sidebar: var(--bg-page);
+            --bg-main: #ffffff;
+            --bg-page: radial-gradient(1200px 500px at 10% -10%, rgba(255, 242, 226, 0.85), transparent),
+                       radial-gradient(900px 400px at 90% 0%, rgba(255, 238, 220, 0.8), transparent),
+                       linear-gradient(180deg, #fffaf5 0%, #ffffff 55%, #fff7ed 100%);
+            --border: #e5e7eb;
+            --quote-bg: #f3f4f6;
+            --img-border: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        [data-theme="dark"] {
+            --primary: #60a5fa;
+            --primary-light: rgba(37, 99, 235, 0.15);
+            --text-main: #f1f5f9;
+            --text-light: #94a3b8;
+            --bg-sidebar: var(--bg-page);
+            --bg-main: #1e293b;
+            --bg-page: radial-gradient(900px 400px at 10% -10%, rgba(255, 200, 140, 0.22), transparent),
+                       radial-gradient(800px 320px at 90% 0%, rgba(246, 173, 85, 0.18), transparent),
+                       linear-gradient(180deg, #111827 0%, #1f2937 55%, #2d3748 100%);
+            --border: #334155;
+            --quote-bg: #020617;
+            --img-border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Serif 4', serif;
+            color: var(--text-main);
+            background: var(--bg-page);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        h1, h2, h3 { font-family: 'Source Serif 4', serif; }
+        a { color: var(--primary); text-decoration: none; transition: 0.2s; }
+        a:hover { text-decoration: underline; }
+
+        .layout {
+            display: grid;
+            grid-template-columns: var(--sidebar-w) 1fr;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 3rem 2rem;
+            position: fixed;
+            width: var(--sidebar-w);
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            z-index: 50;
+            transition: transform 0.3s ease, background-color 0.3s;
+        }
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--img-border);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+            display: block;
+            text-decoration: none !important;
+        }
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .nav-menu {
+            list-style: none;
+            width: 100%;
+            margin: 1rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .nav-toggle-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0.4rem;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background: transparent;
+            color: var(--text-main);
+            padding: 0.7rem 0.9rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .nav-link i { width: 22px; text-align: center; }
+        .nav-link:hover { color: var(--primary); background: transparent; border-color: transparent; text-decoration: none; }
+        .nav-link.active { color: var(--primary); background: transparent; border-color: transparent; box-shadow: 0 6px 14px rgba(37,99,235,0.15); }
+
+        .sidebar-footer {
+            width: 100%;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .theme-toggle-btn {
+            width: 46px;
+            height: 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background 0.2s, border-color 0.2s;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            position: relative;
+            box-shadow: none;
+        }
+        .theme-toggle-btn .toggle-icon {
+            position: absolute;
+            font-size: 0.52rem;
+            color: var(--text-light);
+            top: 50%;
+            transform: translateY(-50%);
+            transition: color 0.2s, opacity 0.2s, transform 0.2s;
+            opacity: 0.8;
+        }
+        .theme-toggle-btn .toggle-icon.sun { left: 5px; }
+        .theme-toggle-btn .toggle-icon.moon { right: 5px; }
+        .theme-toggle-btn .toggle-knob {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid var(--text-light);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transform: translateX(0);
+            transition: transform 0.2s, background 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-toggle-btn .toggle-knob::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: transparent;
+        }
+        .theme-toggle-btn.is-dark {
+            background: transparent;
+            border-color: var(--primary);
+            box-shadow: none;
+        }
+        .theme-toggle-btn.is-dark .toggle-knob { transform: translateX(22px); }
+        .theme-toggle-btn.is-dark .toggle-icon.moon { color: #ffffff; opacity: 1; }
+        .theme-toggle-btn.is-dark .toggle-icon.sun { opacity: 0.4; }
+        .theme-toggle-btn:hover { border-color: var(--primary); transform: translateY(-1px); }
+        .theme-toggle-btn:active .toggle-knob { transform: translateX(2px) scale(0.97); }
+        .theme-toggle-btn.is-dark:active .toggle-knob { transform: translateX(20px) scale(0.97); }
+        .theme-toggle-btn:focus-visible { outline: 2px solid transparent; outline-offset: 2px; }
+        .contact-info { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; }
+        .contact-info i { color: var(--primary); margin-right: 6px; }
+        .social-icons { display: flex; gap: 1rem; }
+        .social-icons a { font-size: 1.2rem; color: var(--text-light); transition: 0.2s; }
+        .social-icons a:hover { color: var(--primary); transform: translateY(-2px); }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: var(--bg-main);
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-main);
+        }
+
+        .main-content {
+            grid-column: 2;
+            padding: 4rem 5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+        h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2.5rem; font-weight: 400; }
+
+        .pub-section-header {
+            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-light);
+            font-weight: 700; margin-top: 2.5rem; margin-bottom: 1.2rem; display: flex; align-items: center;
+        }
+        .pub-section-header::after { content: ""; flex: 1; height: 1px; background: var(--border); margin-left: 1rem; }
+
+        .pub-item { margin-bottom: 2rem; padding-left: 1rem; border-left: 2px solid transparent; transition: 0.2s; }
+        .pub-item:hover { border-left-color: var(--primary); }
+        .pub-title { font-weight: 700; font-size: 1.1rem; color: var(--text-main); display: block; margin-bottom: 4px; }
+        .pub-meta { font-size: 0.95rem; color: var(--text-light); }
+        .highlight-name { font-weight: 700; color: var(--text-main); }
+
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+        .badge-conf { background: #dbeafe; color: #1e40af; }
+        .badge-book { background: #fef3c7; color: #92400e; }
+        .badge-review { background: var(--border); color: var(--text-light); }
+
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { transform: translateX(-100%); width: 260px; align-items: center; text-align: center; }
+            .sidebar.open { transform: translateX(0); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+            .mobile-toggle { display: block; }
+            .main-content { grid-column: 1; padding: 5rem 1.5rem 2rem 1.5rem; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <a href="index.html" class="logo">PKR Partho.</a>
+                <img src="assets/images/Patho.png" alt="Pijush Kanti Roy Partho" class="profile-img">
+                <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-main);">P.K. Roy Partho</div>
+                <div class="sidebar-subtitle">Dinajpur, Bangladesh</div>
+
+                <nav style="width: 100%;">
+                    <div class="nav-toggle-wrap">
+                        <button id="theme-toggle" class="theme-toggle-btn" role="switch" aria-checked="false" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                            <span class="toggle-icon sun"><i class="fas fa-sun"></i></span>
+                            <span class="toggle-icon moon"><i class="fas fa-moon"></i></span>
+                            <span class="toggle-knob"></span>
+                        </button>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a class="nav-link" href="index.html"><i class="fas fa-user"></i> About Me</a></li>
+                        <li><a class="nav-link" href="cv.html"><i class="fas fa-file-pdf"></i> My CV</a></li>
+                        <li><a class="nav-link active" href="publications.html"><i class="fas fa-book-open"></i> Publications</a></li>
+                        <li><a class="nav-link" href="awards.html"><i class="fas fa-award"></i> Honors & Awards</a></li>
+                        <li><a class="nav-link" href="blog.html"><i class="fas fa-newspaper"></i> ML/DL Articles</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="social-icons">
+                    <a href="tel:+8801751142775" title="Phone"><i class="fas fa-phone"></i></a>
+                    <a href="mailto:pijushkantiroy2040@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://scholar.google.com/citations?user=4y4xiVcAAAAJ&hl=en" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://github.com/InquietoPartho" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/urslovelypartho" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://orcid.org/0009-0006-9343-3551" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-light);">&copy; 2027 Partho</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h1>Research Publications</h1>
+                <p class="subtitle">Peer-reviewed papers, accepted manuscripts, and works in progress.</p>
+            </header>
+
+            <div class="pub-section-header">Peer-Reviewed Conference Papers</div>
+
+            <div class="pub-item">
+                <a href="https://doi.org/10.1109/ICCIT64611.2024.11021966" class="pub-title">Plant Leaf Disease Detection Incorporating IoT and XAI-Enhanced Deep Learning</a>
+                <div class="pub-meta">
+                    <span class="highlight-name">P. K. R. Partho</span>, M. A. H. Rafi, and P. Bhowmik
+                </div>
+                <div class="pub-meta">
+                    <em>27th International Conference on Computer and Information Technology (ICCIT)</em>, 2024. <span class="badge badge-conf">IEEE</span>
+                </div>
+            </div>
+
+            <div class="pub-item">
+                <a href="https://doi.org/10.1109/NCIM65934.2025.11159863" class="pub-title">An Interpretable Ensemble Framework Towards Efficient Hypertension Risk Assessment</a>
+                <div class="pub-meta">
+                    <span class="highlight-name">P. K. Roy Partho</span>, P. Bhowmik, and M. K. Nasir
+                </div>
+                <div class="pub-meta">
+                    <em>2nd International Conference on Next-Generation Computing, IoT and Machine Learning (NCIM)</em>, 2025. <span class="badge badge-conf">IEEE</span>
+                </div>
+            </div>
+
+            <div class="pub-section-header">Accepted / To Appear</div>
+
+            <div class="pub-item">
+                <div class="pub-title">XAI-Enhanced Hybrid Models for Effective Chronic Kidney Disease Prediction</div>
+                <div class="pub-meta"><span class="highlight-name">P. K. Roy Partho</span> et al.</div>
+                <div class="pub-meta"><em>11th IEEE International Conference on Sustainable Technology and Engineering (i-COSTE 2025)</em>, Washington, USA.</div>
+            </div>
+
+            <div class="pub-section-header">Book Chapters (In Press)</div>
+
+            <div class="pub-item">
+                <div class="pub-title">Ensemble Learning-Based Real-Time Dengue Prediction from Hematological Features with XAI</div>
+                <div class="pub-meta"><span class="highlight-name">P. K. Roy Partho</span> et al.</div>
+                <div class="pub-meta"><em>Lecture Notes in Networks and Systems</em>, Springer (BIM 2025). <span class="badge badge-book">Springer</span></div>
+            </div>
+
+            <div class="pub-section-header">Journal Manuscripts Under Review</div>
+
+            <div class="pub-item">
+                <div class="pub-title">HypeXAI: An Interpretable Decision Support System for Hypertension Risk Assessment</div>
+                <div class="pub-meta">Under review at <strong>PLOS ONE</strong> (Q1). <span class="badge badge-review">Journal</span></div>
+            </div>
+
+            <div class="pub-item">
+                <div class="pub-title">LCC-Net: A Lightweight Attention-Based CNN for Multi-Organ Cancer Detection</div>
+                <div class="pub-meta">Under review at <strong>Computational Biology and Chemistry</strong>, Elsevier (Q2). <span class="badge badge-review">Journal</span></div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        function applyTheme(theme) {
+            const body = document.body;
+
+            if (theme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+            } else {
+                body.removeAttribute('data-theme');
+            }
+            syncThemeToggle(theme);
+        }
+
+        function syncThemeToggle(theme) {
+            const toggle = document.getElementById('theme-toggle');
+            if (!toggle) return;
+            if (theme === 'dark') {
+                toggle.classList.add('is-dark');
+                toggle.setAttribute('aria-checked', 'true');
+            } else {
+                toggle.classList.remove('is-dark');
+                toggle.setAttribute('aria-checked', 'false');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const nextTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', nextTheme);
+            applyTheme(nextTheme);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        const sidebarEl = document.getElementById('sidebar');
+        const mainContentEl = document.querySelector('.main-content');
+        let hideTimer;
+
+        function autoHideSidebar() {
+            if (window.innerWidth <= 900) {
+                sidebarEl.classList.remove('open');
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 900 && sidebarEl.classList.contains('open')) {
+                clearTimeout(hideTimer);
+                hideTimer = setTimeout(autoHideSidebar, 200);
+            }
+        });
+
+        if (mainContentEl) {
+            mainContentEl.addEventListener('click', autoHideSidebar);
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                sidebarEl.classList.remove('open');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+        });
+    </script>
+</body>
+</html>

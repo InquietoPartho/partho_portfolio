@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Honors & Awards | P.K.R. Partho</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        :root {
+            --sidebar-w: 280px;
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --text-main: #1f2937;
+            --text-light: #4b5563;
+            --bg-sidebar: var(--bg-page);
+            --bg-main: #ffffff;
+            --bg-page: radial-gradient(1200px 500px at 10% -10%, rgba(255, 242, 226, 0.85), transparent),
+                       radial-gradient(900px 400px at 90% 0%, rgba(255, 238, 220, 0.8), transparent),
+                       linear-gradient(180deg, #fffaf5 0%, #ffffff 55%, #fff7ed 100%);
+            --border: #e5e7eb;
+            --surface: #ffffff;
+            --surface-2: #f9fafb;
+            --accent: #10b981;
+            --img-border: #ffffff;
+            --shadow: 0 10px 30px rgba(2, 6, 23, 0.08);
+        }
+        [data-theme="dark"] {
+            --primary: #60a5fa;
+            --primary-light: rgba(37, 99, 235, 0.15);
+            --text-main: #f1f5f9;
+            --text-light: #94a3b8;
+            --bg-sidebar: var(--bg-page);
+            --bg-main: #0b1220;
+            --bg-page: radial-gradient(900px 400px at 10% -10%, rgba(255, 200, 140, 0.22), transparent),
+                       radial-gradient(800px 320px at 90% 0%, rgba(246, 173, 85, 0.18), transparent),
+                       linear-gradient(180deg, #111827 0%, #1f2937 55%, #2d3748 100%);
+            --border: #334155;
+            --surface: #111827;
+            --surface-2: #0f172a;
+            --accent: #34d399;
+            --img-border: #334155;
+            --shadow: 0 12px 30px rgba(0, 0, 0, 0.45);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Serif 4', serif;
+            color: var(--text-main);
+            background: var(--bg-page);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        h1, h2, h3 { font-family: 'Source Serif 4', serif; }
+        a { color: var(--primary); text-decoration: none; transition: 0.2s; }
+        a:hover { text-decoration: underline; }
+
+        .layout {
+            display: grid;
+            grid-template-columns: var(--sidebar-w) 1fr;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 3rem 2rem;
+            position: fixed;
+            width: var(--sidebar-w);
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            z-index: 50;
+            transition: transform 0.3s ease, background-color 0.3s;
+        }
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--img-border);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+            display: block;
+            text-decoration: none !important;
+        }
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .nav-menu {
+            list-style: none;
+            width: 100%;
+            margin: 1rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .nav-toggle-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0.4rem;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background: transparent;
+            color: var(--text-main);
+            padding: 0.7rem 0.9rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .nav-link i { width: 22px; text-align: center; }
+        .nav-link:hover { color: var(--primary); background: transparent; border-color: transparent; text-decoration: none; }
+        .nav-link.active { color: var(--primary); background: transparent; border-color: transparent; box-shadow: 0 6px 14px rgba(37,99,235,0.15); }
+
+        .sidebar-footer {
+            width: 100%;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .theme-toggle-btn {
+            width: 46px;
+            height: 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background 0.2s, border-color 0.2s;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            position: relative;
+            box-shadow: none;
+        }
+        .theme-toggle-btn .toggle-icon {
+            position: absolute;
+            font-size: 0.52rem;
+            color: var(--text-light);
+            top: 50%;
+            transform: translateY(-50%);
+            transition: color 0.2s, opacity 0.2s, transform 0.2s;
+            opacity: 0.8;
+        }
+        .theme-toggle-btn .toggle-icon.sun { left: 5px; }
+        .theme-toggle-btn .toggle-icon.moon { right: 5px; }
+        .theme-toggle-btn .toggle-knob {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid var(--text-light);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transform: translateX(0);
+            transition: transform 0.2s, background 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-toggle-btn .toggle-knob::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: transparent;
+        }
+        .theme-toggle-btn.is-dark {
+            background: transparent;
+            border-color: var(--primary);
+            box-shadow: none;
+        }
+        .theme-toggle-btn.is-dark .toggle-knob { transform: translateX(22px); }
+        .theme-toggle-btn.is-dark .toggle-icon.moon { color: #ffffff; opacity: 1; }
+        .theme-toggle-btn.is-dark .toggle-icon.sun { opacity: 0.4; }
+        .theme-toggle-btn:hover { border-color: var(--primary); transform: translateY(-1px); }
+        .theme-toggle-btn:active .toggle-knob { transform: translateX(2px) scale(0.97); }
+        .theme-toggle-btn.is-dark:active .toggle-knob { transform: translateX(20px) scale(0.97); }
+        .theme-toggle-btn:focus-visible { outline: 2px solid transparent; outline-offset: 2px; }
+        .contact-info { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; }
+        .contact-info i { color: var(--primary); margin-right: 6px; }
+        .social-icons { display: flex; gap: 1rem; }
+        .social-icons a { font-size: 1.2rem; color: var(--text-light); transition: 0.2s; }
+        .social-icons a:hover { color: var(--primary); transform: translateY(-2px); }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: var(--bg-main);
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-main);
+        }
+
+        .main-content {
+            grid-column: 2;
+            padding: 4rem 5rem 5rem;
+            max-width: 1050px;
+            margin: 0 auto;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .hero {
+            background: radial-gradient(1200px 400px at -5% -20%, rgba(37, 99, 235, 0.15), transparent),
+                        linear-gradient(135deg, rgba(16, 185, 129, 0.12), rgba(37, 99, 235, 0.08));
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 2.5rem 2.5rem 2rem;
+            box-shadow: var(--shadow);
+            margin-bottom: 2.5rem;
+        }
+        .hero-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            color: var(--primary);
+            padding: 0.35rem 0.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+        .hero h1 {
+            font-size: 2.6rem;
+            font-weight: 800;
+            margin: 1rem 0 0.6rem;
+        }
+        .hero p {
+            color: var(--text-light);
+            max-width: 720px;
+        }
+
+        .stat-grid {
+            margin-top: 1.8rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1rem;
+        }
+        .stat-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            padding: 1rem 1.1rem;
+        }
+        .stat-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 0.2rem;
+        }
+        .stat-card span { color: var(--text-light); font-size: 0.9rem; }
+
+        .award-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.2rem;
+        }
+        .award-card {
+            background: var(--surface);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem 1.4rem;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
+        .award-card::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(37,99,235,0.08), transparent);
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .award-card:hover::after { opacity: 1; }
+        .award-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            background: var(--primary-light);
+            display: grid;
+            place-items: center;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+        .award-title { font-weight: 700; font-size: 1.1rem; margin-bottom: 0.3rem; }
+        .award-meta { color: var(--text-light); font-size: 0.95rem; }
+
+        .timeline {
+            margin-top: 2.5rem;
+            padding: 1.5rem 1.5rem 0.5rem;
+            background: var(--surface-2);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+        }
+        .timeline h2 { margin-top: 0; border: none; }
+        .timeline-list {
+            position: relative;
+            margin-top: 1rem;
+            padding-left: 1.2rem;
+        }
+        .timeline-list::before {
+            content: "";
+            position: absolute;
+            left: 6px;
+            top: 0.4rem;
+            bottom: 0.4rem;
+            width: 2px;
+            background: var(--border);
+        }
+        .timeline-item {
+            position: relative;
+            padding: 0.6rem 0 1.2rem 1.2rem;
+        }
+        .timeline-item:last-child { padding-bottom: 0.3rem; }
+        .timeline-item::before {
+            content: "";
+            position: absolute;
+            left: -0.1rem;
+            top: 0.9rem;
+            width: 12px;
+            height: 12px;
+            border-radius: 999px;
+            background: var(--primary);
+            box-shadow: 0 0 0 4px rgba(37,99,235,0.15);
+        }
+        .timeline-title { font-weight: 700; }
+        .timeline-meta { color: var(--text-light); font-size: 0.95rem; }
+
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { transform: translateX(-100%); width: 260px; align-items: center; text-align: center; }
+            .sidebar.open { transform: translateX(0); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+            .mobile-toggle { display: block; }
+            .main-content { grid-column: 1; padding: 5rem 1.5rem 2.5rem; }
+            .hero { padding: 2rem 1.8rem; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <a href="index.html" class="logo">PKR Partho.</a>
+                <img src="assets/images/Patho.png" alt="Pijush Kanti Roy Partho" class="profile-img">
+                <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-main);">P.K. Roy Partho</div>
+                <div class="sidebar-subtitle">Dinajpur, Bangladesh</div>
+
+                <nav style="width: 100%;">
+                    <div class="nav-toggle-wrap">
+                        <button id="theme-toggle" class="theme-toggle-btn" role="switch" aria-checked="false" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                            <span class="toggle-icon sun"><i class="fas fa-sun"></i></span>
+                            <span class="toggle-icon moon"><i class="fas fa-moon"></i></span>
+                            <span class="toggle-knob"></span>
+                        </button>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a class="nav-link" href="index.html"><i class="fas fa-user"></i> About Me</a></li>
+                        <li><a class="nav-link" href="cv.html"><i class="fas fa-file-pdf"></i> My CV</a></li>
+                        <li><a class="nav-link" href="publications.html"><i class="fas fa-book-open"></i> Publications</a></li>
+                        <li><a class="nav-link active" href="awards.html"><i class="fas fa-award"></i> Honors & Awards</a></li>
+                        <li><a class="nav-link" href="blog.html"><i class="fas fa-newspaper"></i> ML/DL Articles</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="social-icons">
+                    <a href="tel:+8801751142775" title="Phone"><i class="fas fa-phone"></i></a>
+                    <a href="mailto:pijushkantiroy2040@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://scholar.google.com/citations?user=4y4xiVcAAAAJ&hl=en" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://github.com/InquietoPartho" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/urslovelypartho" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://orcid.org/0009-0006-9343-3551" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-light);">&copy; 2027 Partho</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <section class="hero">
+                <span class="hero-tag"><i class="fas fa-award"></i> Honors & Awards</span>
+                <h1>Academic distinctions and service</h1>
+                <p>A curated record of academic excellence, national recognition, and professional service in research, community development, and mentorship.</p>
+
+                <div class="stat-grid">
+                    <div class="stat-card">
+                        <h3>5+</h3>
+                        <span>Major recognitions</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>3</h3>
+                        <span>National-level awards</span>
+                    </div>
+                    <div class="stat-card">
+                        <h3>2027</h3>
+                        <span>Expected graduation</span>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <div style="display:flex; align-items:center; justify-content:space-between; gap: 1rem;">
+                    <h2 style="margin:0;">Honors & Awards</h2>
+                    <span style="color: var(--text-light); font-size: 0.95rem;">Selected highlights</span>
+                </div>
+
+                <div class="award-grid">
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-medal"></i></div>
+                        <div class="award-title">Dean’s Award for Academic Excellence</div>
+                        <div class="award-meta">Level–2, Department of Electronics and Communication Engineering, HSTU.</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-certificate"></i></div>
+                        <div class="award-title">President’s Scout Award</div>
+                        <div class="award-meta">Highest national scouting honor, conferred by the President of Bangladesh.</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-hands-helping"></i></div>
+                        <div class="award-title">Community Development Award</div>
+                        <div class="award-meta">National-level award conferred by the Prime Minister of Bangladesh.</div>
+                    </div>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-trophy"></i></div>
+                        <div class="award-title">National Champion</div>
+                        <div class="award-meta">National Child and Youth Programming Contest (2018).</div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="timeline">
+                <h2>Academic Service</h2>
+                <div class="timeline-list">
+                    <div class="timeline-item">
+                        <div class="timeline-title">Trainer, Microsoft Learn Student Ambassadors Bangladesh</div>
+                        <div class="timeline-meta">Conducted sessions on Git, GitHub, and VS Code.</div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        function applyTheme(theme) {
+            const body = document.body;
+
+            if (theme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+            } else {
+                body.removeAttribute('data-theme');
+            }
+            syncThemeToggle(theme);
+        }
+
+        function syncThemeToggle(theme) {
+            const toggle = document.getElementById('theme-toggle');
+            if (!toggle) return;
+            if (theme === 'dark') {
+                toggle.classList.add('is-dark');
+                toggle.setAttribute('aria-checked', 'true');
+            } else {
+                toggle.classList.remove('is-dark');
+                toggle.setAttribute('aria-checked', 'false');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const nextTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', nextTheme);
+            applyTheme(nextTheme);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        const sidebarEl = document.getElementById('sidebar');
+        const mainContentEl = document.querySelector('.main-content');
+        let hideTimer;
+
+        function autoHideSidebar() {
+            if (window.innerWidth <= 900) {
+                sidebarEl.classList.remove('open');
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 900 && sidebarEl.classList.contains('open')) {
+                clearTimeout(hideTimer);
+                hideTimer = setTimeout(autoHideSidebar, 200);
+            }
+        });
+
+        if (mainContentEl) {
+            mainContentEl.addEventListener('click', autoHideSidebar);
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                sidebarEl.classList.remove('open');
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+        });
+    </script>
+</body>
+</html>

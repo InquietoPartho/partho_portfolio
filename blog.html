@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog | P.K.R. Partho</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;600&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
+    <style>
+        :root {
+            --sidebar-w: 280px;
+            --primary: #2563eb;
+            --primary-light: #eff6ff;
+            --text-main: #1f2937;
+            --text-light: #4b5563;
+            --bg-sidebar: var(--bg-page);
+            --bg-main: #ffffff;
+            --bg-page: radial-gradient(1200px 500px at 10% -10%, rgba(255, 242, 226, 0.85), transparent),
+                       radial-gradient(900px 400px at 90% 0%, rgba(255, 238, 220, 0.8), transparent),
+                       linear-gradient(180deg, #fffaf5 0%, #ffffff 55%, #fff7ed 100%);
+            --border: #e5e7eb;
+            --quote-bg: #f3f4f6;
+            --accent: #10b981;
+            --img-border: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        [data-theme="dark"] {
+            --primary: #60a5fa;
+            --primary-light: rgba(37, 99, 235, 0.15);
+            --text-main: #f1f5f9;
+            --text-light: #94a3b8;
+            --bg-sidebar: var(--bg-page);
+            --bg-main: #1e293b;
+            --bg-page: radial-gradient(900px 400px at 10% -10%, rgba(255, 200, 140, 0.22), transparent),
+                       radial-gradient(800px 320px at 90% 0%, rgba(246, 173, 85, 0.18), transparent),
+                       linear-gradient(180deg, #111827 0%, #1f2937 55%, #2d3748 100%);
+            --border: #334155;
+            --quote-bg: #020617;
+            --img-border: #334155;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Source Serif 4', serif;
+            color: var(--text-main);
+            background: var(--bg-page);
+            line-height: 1.8;
+            font-size: 1.05rem;
+        }
+        h1, h2, h3, .badge, .pub-meta, .article-title, .intro-lead { font-family: 'Source Serif 4', serif; }
+        a { color: var(--primary); text-decoration: none; transition: 0.2s; }
+        a:hover { text-decoration: underline; }
+
+        .layout {
+            display: grid;
+            grid-template-columns: var(--sidebar-w) 1fr;
+            min-height: 100vh;
+        }
+        .sidebar {
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            padding: 3rem 2rem;
+            position: fixed;
+            width: var(--sidebar-w);
+            height: 100vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+            text-align: center;
+            z-index: 50;
+            transition: transform 0.3s ease, background-color 0.3s;
+        }
+        .profile-img {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid var(--img-border);
+            box-shadow: var(--shadow);
+            margin-bottom: 1.2rem;
+        }
+        .logo {
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+            margin-bottom: 0.4rem;
+            display: block;
+            text-decoration: none !important;
+        }
+        .sidebar-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            font-weight: 500;
+        }
+        .nav-menu {
+            list-style: none;
+            width: 100%;
+            margin: 1rem 0 0;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .nav-toggle-wrap {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 0.4rem;
+        }
+        .nav-link {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            background: transparent;
+            color: var(--text-main);
+            padding: 0.7rem 0.9rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            border-radius: 10px;
+            border: 1px solid transparent;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.04);
+            transition: 0.2s;
+            text-decoration: none;
+        }
+        .nav-link i { width: 22px; text-align: center; }
+        .nav-link:hover { color: var(--primary); background: transparent; border-color: transparent; text-decoration: none; }
+        .nav-link.active { color: var(--primary); background: transparent; border-color: transparent; box-shadow: 0 6px 14px rgba(37,99,235,0.15); }
+
+        .sidebar-footer {
+            width: 100%;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .theme-toggle-btn {
+            width: 46px;
+            height: 20px;
+            background: transparent;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            padding: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            transition: background 0.2s, border-color 0.2s;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            position: relative;
+            box-shadow: none;
+        }
+        .theme-toggle-btn .toggle-icon {
+            position: absolute;
+            font-size: 0.52rem;
+            color: var(--text-light);
+            top: 50%;
+            transform: translateY(-50%);
+            transition: color 0.2s, opacity 0.2s, transform 0.2s;
+            opacity: 0.8;
+        }
+        .theme-toggle-btn .toggle-icon.sun { left: 5px; }
+        .theme-toggle-btn .toggle-icon.moon { right: 5px; }
+        .theme-toggle-btn .toggle-knob {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: transparent;
+            border: 1px solid var(--text-light);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+            transform: translateX(0);
+            transition: transform 0.2s, background 0.2s;
+            position: relative;
+            overflow: hidden;
+        }
+        .theme-toggle-btn .toggle-knob::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: 50%;
+            background: transparent;
+        }
+        .theme-toggle-btn.is-dark {
+            background: transparent;
+            border-color: var(--primary);
+            box-shadow: none;
+        }
+        .theme-toggle-btn.is-dark .toggle-knob { transform: translateX(22px); }
+        .theme-toggle-btn.is-dark .toggle-icon.moon { color: #ffffff; opacity: 1; }
+        .theme-toggle-btn.is-dark .toggle-icon.sun { opacity: 0.4; }
+        .theme-toggle-btn:hover { border-color: var(--primary); transform: translateY(-1px); }
+        .theme-toggle-btn:active .toggle-knob { transform: translateX(2px) scale(0.97); }
+        .theme-toggle-btn.is-dark:active .toggle-knob { transform: translateX(20px) scale(0.97); }
+        .theme-toggle-btn:focus-visible { outline: 2px solid transparent; outline-offset: 2px; }
+        .contact-info { font-size: 0.85rem; color: var(--text-light); margin-bottom: 1rem; }
+        .contact-info i { color: var(--primary); margin-right: 6px; }
+        .social-icons { display: flex; gap: 1rem; }
+        .social-icons a { font-size: 1.2rem; color: var(--text-light); transition: 0.2s; }
+        .social-icons a:hover { color: var(--primary); transform: translateY(-2px); }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            z-index: 100;
+            background: var(--bg-main);
+            padding: 0.6rem 0.8rem;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            color: var(--text-main);
+        }
+
+        .main-content {
+            grid-column: 2;
+            padding: 4rem 5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+            width: 100%;
+            animation: fadeIn 0.5s ease;
+        }
+        h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.5rem; }
+        h2 { font-size: 1.5rem; margin-top: 2.5rem; margin-bottom: 1.2rem; border-bottom: 2px solid var(--border); padding-bottom: 0.5rem; }
+        h3 { font-size: 1.2rem; font-weight: 700; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2.5rem; font-weight: 400; }
+
+        .article-card { padding: 1.5rem 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
+        .article-card p { text-align: justify; text-justify: inter-word; }
+        .article-card:hover .article-title { color: var(--primary); }
+        .article-full { display: none; animation: fadeIn 0.4s ease; padding-bottom: 4rem; }
+        .article-header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .article-content { font-size: 1.1rem; color: var(--text-main); line-height: 1.9; text-align: justify; text-justify: inter-word; }
+        .article-content p { margin-bottom: 1.5rem; text-align: justify; text-justify: inter-word; }
+        .article-content li { text-align: justify; text-justify: inter-word; }
+        .translation-toggle {
+            display: inline-flex;
+            gap: 0.6rem;
+            margin: 1rem 0 1.5rem;
+            padding: 4px;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+        }
+        .translation-toggle button {
+            border: none;
+            background: transparent;
+            color: var(--text-main);
+            padding: 0.35rem 0.8rem;
+            border-radius: 999px;
+            font-weight: 600;
+            cursor: pointer;
+            font-family: 'Source Serif 4', serif;
+        }
+        .translation-toggle button.active {
+            color: var(--primary);
+            background: var(--primary-light);
+        }
+        .translation-pane { display: none; }
+        .translation-pane.active { display: block; }
+        .intro-lead { font-size: 1.25rem; color: var(--text-light); border-bottom: 1px solid var(--border); padding-bottom: 2rem; margin-bottom: 2rem; }
+
+        pre {
+            background: #1e293b;
+            color: #f8fafc;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 0.95rem;
+            margin: 2rem 0;
+            border-left: 4px solid var(--primary);
+        }
+        .img-container { margin: 2.5rem 0; text-align: center; }
+        .img-container img { max-width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+        .img-caption { font-size: 0.9rem; color: var(--text-light); margin-top: 0.8rem; font-style: italic; font-family: 'Source Serif 4', serif; }
+        .btn-back { display: inline-block; margin-bottom: 1.5rem; color: var(--primary); font-weight: 600; cursor: pointer; font-family: 'Source Serif 4', serif; display: flex; align-items: center; }
+        .btn-back i { margin-right: 8px; }
+        .btn-back:hover { text-decoration: underline; }
+        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
+        .badge-conf { background: #dbeafe; color: #1e40af; }
+        .bangla-font { font-family: 'Anek Bangla', sans-serif; }
+        .lottie-wrapper { max-width: 420px; margin: 0 auto 2rem auto; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        @media (max-width: 900px) {
+            .layout { grid-template-columns: 1fr; }
+            .sidebar { transform: translateX(-100%); width: 260px; align-items: center; text-align: center; }
+            .sidebar.open { transform: translateX(0); box-shadow: 0 0 20px rgba(0,0,0,0.2); }
+            .mobile-toggle { display: block; }
+            .main-content { grid-column: 1; padding: 5rem 1.5rem 2rem 1.5rem; }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="layout">
+        <aside class="sidebar" id="sidebar">
+            <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+                <a href="index.html" class="logo">PKR Partho.</a>
+                <img src="assets/images/Patho.png" alt="Pijush Kanti Roy Partho" class="profile-img">
+                <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-main);">P.K. Roy Partho</div>
+                <div class="sidebar-subtitle">Dinajpur, Bangladesh</div>
+
+                <nav style="width: 100%;">
+                    <div class="nav-toggle-wrap">
+                        <button id="theme-toggle" class="theme-toggle-btn" role="switch" aria-checked="false" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+                            <span class="toggle-icon sun"><i class="fas fa-sun"></i></span>
+                            <span class="toggle-icon moon"><i class="fas fa-moon"></i></span>
+                            <span class="toggle-knob"></span>
+                        </button>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a class="nav-link" href="index.html"><i class="fas fa-user"></i> About Me</a></li>
+                        <li><a class="nav-link" href="cv.html"><i class="fas fa-file-pdf"></i> My CV</a></li>
+                        <li><a class="nav-link" href="publications.html"><i class="fas fa-book-open"></i> Publications</a></li>
+                        <li><a class="nav-link" href="awards.html"><i class="fas fa-award"></i> Honors & Awards</a></li>
+                        <li><a class="nav-link active" href="blog.html"><i class="fas fa-newspaper"></i> ML/DL Articles</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <div class="social-icons">
+                    <a href="tel:+8801751142775" title="Phone"><i class="fas fa-phone"></i></a>
+                    <a href="mailto:pijushkantiroy2040@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+                    <a href="https://scholar.google.com/citations?user=4y4xiVcAAAAJ&hl=en" target="_blank" title="Google Scholar"><i class="fas fa-graduation-cap"></i></a>
+                    <a href="https://github.com/InquietoPartho" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+                    <a href="https://linkedin.com/in/urslovelypartho" target="_blank" title="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                    <a href="https://orcid.org/0009-0006-9343-3551" target="_blank" title="ORCID"><i class="fab fa-orcid"></i></a>
+                </div>
+                <p style="margin-top: 1rem; font-size: 0.75rem; color: var(--text-light);">&copy; 2027 Partho</p>
+            </div>
+        </aside>
+
+        <main class="main-content">
+        <div id="article-list">
+            <h2>Research Articles in ML/DL</h2>
+            <p class="subtitle">Tutorials, research notes, and perspectives on explainable AI.</p>
+            <div id="articles-container"></div>
+        </div>
+
+        <div id="article-detail" class="article-full"></div>
+    </main>
+    </div>
+
+    <script src="assets/blog-articles.js"></script>
+    <script>
+        function applyTheme(theme) {
+            const body = document.body;
+
+            if (theme === 'dark') {
+                body.setAttribute('data-theme', 'dark');
+            } else {
+                body.removeAttribute('data-theme');
+            }
+            syncThemeToggle(theme);
+        }
+
+        function syncThemeToggle(theme) {
+            const toggle = document.getElementById('theme-toggle');
+            if (!toggle) return;
+            if (theme === 'dark') {
+                toggle.classList.add('is-dark');
+                toggle.setAttribute('aria-checked', 'true');
+            } else {
+                toggle.classList.remove('is-dark');
+                toggle.setAttribute('aria-checked', 'false');
+            }
+        }
+
+        function toggleTheme() {
+            const isDark = document.body.getAttribute('data-theme') === 'dark';
+            const nextTheme = isDark ? 'light' : 'dark';
+            localStorage.setItem('theme', nextTheme);
+            applyTheme(nextTheme);
+        }
+
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        const sidebarEl = document.getElementById('sidebar');
+        const mainContentEl = document.querySelector('.main-content');
+        let hideTimer;
+
+        function autoHideSidebar() {
+            if (window.innerWidth <= 900) {
+                sidebarEl.classList.remove('open');
+            }
+        }
+
+        window.addEventListener('scroll', () => {
+            if (window.innerWidth <= 900 && sidebarEl.classList.contains('open')) {
+                clearTimeout(hideTimer);
+                hideTimer = setTimeout(autoHideSidebar, 200);
+            }
+        });
+
+        if (mainContentEl) {
+            mainContentEl.addEventListener('click', autoHideSidebar);
+        }
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                sidebarEl.classList.remove('open');
+            }
+        });
+
+        const articles = window.blogArticles || [];
+
+        function renderArticleList() {
+            const listContainer = document.getElementById('articles-container');
+            if (!listContainer) return;
+
+            listContainer.innerHTML = articles.map(article => {
+                const titleClass = article.listTitleClass ? ` ${article.listTitleClass}` : '';
+                const summaryClassAttr = article.listSummaryClass ? ` class="${article.listSummaryClass}"` : '';
+                return `
+                    <article class="article-card" data-article="${article.id}">
+                        <div class="pub-meta">${article.listMeta}</div>
+                        <div class="article-title${titleClass}">${article.listTitle}</div>
+                        <p${summaryClassAttr}>${article.listSummary}</p>
+                    </article>
+                `;
+            }).join('');
+
+            listContainer.querySelectorAll('.article-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const articleId = card.getAttribute('data-article');
+                    if (articleId) {
+                        openArticle(articleId);
+                    }
+                });
+            });
+        }
+
+        function openArticle(articleId) {
+            const article = articles.find(item => item.id === articleId);
+            if (!article) return;
+
+            const listEl = document.getElementById('article-list');
+            const detailEl = document.getElementById('article-detail');
+
+            if (listEl) listEl.style.display = 'none';
+            if (detailEl) {
+                detailEl.style.display = 'block';
+                const headerClass = article.headerTitleClass ? ` class="${article.headerTitleClass}"` : '';
+                const hasTranslation = Boolean(article.translationHtml);
+
+                detailEl.innerHTML = `
+                    <div class="btn-back" onclick="closeArticle()">← Back to Articles</div>
+                    <div class="article-header">
+                        <h1${headerClass}>${article.headerTitle}</h1>
+                        <div class="pub-meta">${article.headerMeta}</div>
+                    </div>
+                    ${hasTranslation ? `
+                        <div class="translation-toggle" role="tablist" aria-label="Article language">
+                            <button type="button" class="active" data-lang="bn" role="tab" aria-selected="true">বাংলা</button>
+                            <button type="button" data-lang="en" role="tab" aria-selected="false">English</button>
+                        </div>
+                        <div class="translation-pane active" data-lang="bn">
+                            ${article.contentHtml}
+                        </div>
+                        <div class="translation-pane" data-lang="en">
+                            ${article.translationHtml}
+                        </div>
+                    ` : article.contentHtml}
+                    <div class="btn-back" onclick="closeArticle()" style="margin-top: 3rem;">← Back to Articles</div>
+                `;
+
+                if (hasTranslation) {
+                    const toggleButtons = detailEl.querySelectorAll('.translation-toggle button');
+                    const panes = detailEl.querySelectorAll('.translation-pane');
+                    toggleButtons.forEach(button => {
+                        button.addEventListener('click', () => {
+                            const lang = button.getAttribute('data-lang');
+                            toggleButtons.forEach(btn => {
+                                const isActive = btn.getAttribute('data-lang') === lang;
+                                btn.classList.toggle('active', isActive);
+                                btn.setAttribute('aria-selected', String(isActive));
+                            });
+                            panes.forEach(pane => {
+                                pane.classList.toggle('active', pane.getAttribute('data-lang') === lang);
+                            });
+                        });
+                    });
+                }
+            }
+
+            if (article.lottie && window.lottie) {
+                lottie.destroy();
+                const animations = Array.isArray(article.lottie) ? article.lottie : [article.lottie];
+                animations.forEach(animation => {
+                    const container = document.getElementById(animation.containerId);
+                    if (container) {
+                        lottie.loadAnimation({
+                            container,
+                            renderer: 'svg',
+                            loop: true,
+                            autoplay: true,
+                            path: animation.path
+                        });
+                    }
+                });
+            }
+
+            window.scrollTo(0, 0);
+        }
+
+        function closeArticle() {
+            const listEl = document.getElementById('article-list');
+            const detailEl = document.getElementById('article-detail');
+            if (detailEl) {
+                detailEl.style.display = 'none';
+                detailEl.innerHTML = '';
+            }
+            if (listEl) listEl.style.display = 'block';
+            window.scrollTo(0, 0);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            applyTheme(savedTheme);
+            renderArticleList();
+        });
+    </script>
+</body>
+</html>
