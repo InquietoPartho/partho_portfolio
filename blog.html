@@ -233,7 +233,9 @@
 
         .article-card { padding: 1.5rem 0; border-bottom: 1px solid var(--border); cursor: pointer; transition: 0.2s; }
         .article-card p { text-align: justify; text-justify: inter-word; }
-        .article-card:hover .article-title { color: var(--primary); }
+        .article-card:hover .article-title { color: var(--text-main); }
+        .article-link { color: var(--text-main); text-decoration: none; display: block; }
+        .article-link:hover { color: var(--text-main); text-decoration: none; }
         .article-full { display: none; animation: fadeIn 0.4s ease; padding-bottom: 4rem; }
         .article-header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
         .article-content { font-size: 1.1rem; color: var(--text-main); line-height: 1.9; text-align: justify; text-justify: inter-word; }
@@ -460,21 +462,18 @@
                 const headerClass = article.headerTitleClass ? ` class="${article.headerTitleClass}"` : '';
                 const hasTranslation = Boolean(article.translationHtml);
 
+                const titleBn = article.headerTitle;
+                const titleEn = article.translationTitle || article.headerTitle;
+                const classBn = article.headerTitleClass || '';
+                const classEn = article.translationTitleClass || '';
+                const metaBn = article.headerMeta;
+                const metaEn = article.translationMeta || article.headerMeta;
+
                 detailEl.innerHTML = `
                     <div class="btn-back" onclick="closeArticle()">← Back to Articles</div>
                     <div class="article-header">
-                        <h1${headerClass}
-                            data-title-bn="${article.headerTitle}"
-                            data-title-en="${article.translationTitle || article.headerTitle}"
-                            data-class-bn="${article.headerTitleClass || ''}"
-                            data-class-en="${article.translationTitleClass || ''}">
-                            ${article.headerTitle}
-                        </h1>
-                        <div class="pub-meta"
-                            data-meta-bn="${article.headerMeta}"
-                            data-meta-en="${article.translationMeta || article.headerMeta}">
-                            ${article.headerMeta}
-                        </div>
+                        <h1${headerClass}>${article.headerTitle}</h1>
+                        <div class="pub-meta">${article.headerMeta}</div>
                     </div>
                     ${hasTranslation ? `
                         <div class="translation-toggle" role="tablist" aria-label="Article language">
@@ -508,12 +507,15 @@
                                 pane.classList.toggle('active', pane.getAttribute('data-lang') === lang);
                             });
                             if (headerTitle && headerMeta) {
-                                const nextTitle = headerTitle.getAttribute(lang === 'en' ? 'data-title-en' : 'data-title-bn');
-                                const nextMeta = headerMeta.getAttribute(lang === 'en' ? 'data-meta-en' : 'data-meta-bn');
-                                const nextClass = headerTitle.getAttribute(lang === 'en' ? 'data-class-en' : 'data-class-bn') || '';
-                                headerTitle.className = nextClass;
-                                headerTitle.textContent = nextTitle || headerTitle.textContent;
-                                headerMeta.innerHTML = nextMeta || headerMeta.innerHTML;
+                                if (lang === 'en') {
+                                    headerTitle.className = classEn;
+                                    headerTitle.textContent = titleEn;
+                                    headerMeta.innerHTML = metaEn;
+                                } else {
+                                    headerTitle.className = classBn;
+                                    headerTitle.textContent = titleBn;
+                                    headerMeta.innerHTML = metaBn;
+                                }
                             }
                         });
                     });
@@ -564,6 +566,15 @@
             const hashId = window.location.hash.replace('#', '');
             if (hashId) {
                 openArticle(hashId);
+            }
+        });
+
+        window.addEventListener('hashchange', () => {
+            const hashId = window.location.hash.replace('#', '');
+            if (hashId) {
+                openArticle(hashId);
+            } else {
+                closeArticle();
             }
         });
     </script>
