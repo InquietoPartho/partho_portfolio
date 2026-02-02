@@ -9,6 +9,9 @@ window.blogArticles = [
         headerTitle: "অ্যাটমিক হ্যাবিটস: ক্ষুদ্র অভ্যাসের বড় পরিবর্তন (একটি পূর্ণাঙ্গ বাংলা গাইড)",
         headerTitleClass: "bangla-font",
         headerMeta: "By P.K.R. Partho • Feb 2026 • 20+ min read • <span class=\"badge badge-conf\">Bangla Article</span>",
+        translationTitle: "Atomic Habits: Small Changes, Remarkable Results (Full English Translation)",
+        translationTitleClass: "",
+        translationMeta: "By P.K.R. Partho • Feb 2026 • 20+ min read • <span class=\"badge badge-conf\">English Translation</span>",
         lottie: [
             {
                 containerId: "atomic-habits-animation",
@@ -249,22 +252,37 @@ window.blogArticles = [
                     <div id="atomic-habits-animation-en" style="width: 100%; height: 100%;"></div>
                 </div>
                 <p class="intro-lead">
-                    We aim for big change, yet sustainable transformation is built through tiny, consistent actions. This article presents a practical framework grounded in identity-based goals, environment design, and simple behavioral principles.
+                    We want big changes, but big plans often exhaust us. This article is about the compounding power of small habits—where tiny daily actions create long‑term results. It presents a framework grounded in identity‑based goals, environment design, and simple behavioral principles.
                 </p>
 
-                <h3>1) The Power of Small Gains</h3>
+                <h3>1) The Power of Small Change: How 1% Improvement Works</h3>
                 <p>
-                    A 1% improvement looks insignificant today, but compounding over time creates extraordinary outcomes. The goal is not overnight transformation, but becoming slightly better each day.
+                    A 1% improvement each day is barely noticeable at first, but over time it compounds into a remarkable outcome. The goal is not “changing everything in one day,” but “becoming slightly better today.”
                 </p>
 
-                <h3>2) Change Identity, Not Just Outcomes</h3>
+                <h3>2) Change Identity, Not Just Goals</h3>
                 <p>
-                    Outcome goals (“lose 10 kg,” “write a paper”) often fade. Identity-based goals (“I am a healthy person,” “I am a researcher”) sustain habits. When you embody the identity, the behaviors become natural.
+                    Most people change through outcome goals—“lose 10 kg,” “study every day,” “write a research paper.” But sustainable change comes from identity‑based goals: “I am a health‑conscious person,” “I am a regular reader,” “I am a researcher.”
                 </p>
-
-                <h3>3) The Habit Loop</h3>
                 <p>
-                    Habits follow a simple loop: cue → craving → response → reward. Improving any step improves the habit.
+                    If you begin to see yourself as a “researcher,” then reading, writing, and note‑taking naturally become part of who you are. The outcome becomes the by‑product of the identity.
+                </p>
+                <div class="quote-box" style="margin: 2rem 0; padding: 1.5rem; background: var(--primary-light); border-left: 4px solid var(--accent);">
+                    Change identity → change behavior → change results.
+                </div>
+
+                <h3>3) The Four Steps of Habit Formation</h3>
+                <p>
+                    Most habits follow a simple cycle: cue → craving → response → reward. Every step in this loop offers a point of change.
+                </p>
+                <ul>
+                    <li><strong>Cue:</strong> A situation or time that triggers the habit.</li>
+                    <li><strong>Craving:</strong> The feeling you want to experience.</li>
+                    <li><strong>Response:</strong> The action you take.</li>
+                    <li><strong>Reward:</strong> The payoff that makes you repeat the habit.</li>
+                </ul>
+                <p>
+                    If you adjust each step slightly, building or breaking habits becomes easier.
                 </p>
 
                 <div class="img-container">
@@ -272,41 +290,171 @@ window.blogArticles = [
                     <div class="img-caption">Habit loop: cue → craving → response → reward.</div>
                 </div>
 
-                <h3>4) Build Good Habits: Make It Obvious, Attractive, Easy, Satisfying</h3>
+                <h3>4) Build Good Habits: The Four Laws</h3>
+                <p>
+                    To create a good habit, follow four principles: make it obvious, attractive, easy, and satisfying.
+                </p>
+
+                <h4>4.1 Make it Obvious</h4>
+                <p>
+                    Habits begin with cues. If the cue isn’t visible, the habit won’t start. Place cues in plain sight.
+                </p>
                 <ul>
-                    <li><strong>Obvious:</strong> Make cues visible (books on desk, water bottle in sight).</li>
-                    <li><strong>Attractive:</strong> Pair the habit with something you enjoy.</li>
-                    <li><strong>Easy:</strong> Start with a 2‑minute version of the habit.</li>
-                    <li><strong>Satisfying:</strong> Use a small reward or a habit tracker.</li>
+                    <li>Want to read? Keep a book in front of you.</li>
+                    <li>Want to drink water? Put a bottle on your desk.</li>
+                    <li>Prepare the environment in advance.</li>
                 </ul>
 
-                <h3>5) Break Bad Habits: Make It Invisible, Unattractive, Difficult, Unsatisfying</h3>
+                <h4>4.2 Make it Attractive</h4>
                 <p>
-                    Reduce cues, highlight negative consequences, add friction, and create accountability.
+                    Consistency needs attraction. Pair the habit with something you enjoy (temptation bundling).
+                </p>
+                <ul>
+                    <li>Listen to favorite music while exercising.</li>
+                    <li>Create a comfortable reading atmosphere.</li>
+                    <li>Keep tea or coffee nearby.</li>
+                </ul>
+
+                <h4>4.3 Make it Easy</h4>
+                <p>
+                    People avoid complexity. Simplify the habit. The two‑minute rule helps: start with a version that takes two minutes or less.
+                </p>
+                <ul>
+                    <li>“Read 30 pages daily” → “Read 1 page daily.”</li>
+                    <li>“Code for 1 hour” → “Open the code editor.”</li>
+                </ul>
+                <p>
+                    Small starts create momentum. Time grows naturally.
                 </p>
 
-                <h3>6) Environment Beats Willpower</h3>
+                <h4>4.4 Make it Satisfying</h4>
                 <p>
-                    Willpower is limited. Design your environment so good habits are easy and bad habits are hard.
+                    We repeat what feels good immediately. Add a small reward or use a habit tracker for instant satisfaction.
+                </p>
+                <ul>
+                    <li>Mark a check on a calendar.</li>
+                    <li>Give yourself a short break or a small treat.</li>
+                </ul>
+
+                <h3>5) Break Bad Habits: The Reverse Laws</h3>
+                <p>
+                    To break bad habits, reverse the loop: make it invisible, unattractive, difficult, and unsatisfying.
                 </p>
 
-                <h3>7) Track, Review, and Return Quickly</h3>
+                <h4>5.1 Make it Invisible</h4>
                 <p>
-                    Use a habit tracker and the “never miss twice” rule. Consistency matters more than perfection.
+                    Remove cues. If you want less social media, turn off notifications or remove the app from the home screen.
                 </p>
 
-                <h3>8) Practical Use for Study & Research</h3>
+                <h4>5.2 Make it Unattractive</h4>
                 <p>
-                    Set a dedicated study setup, start with a tiny reading task, and track daily progress. Over time, the identity of “researcher” becomes real.
+                    Remind yourself of the negative consequences. This reduces the craving.
                 </p>
+
+                <h4>5.3 Make it Difficult</h4>
+                <p>
+                    Add friction. Use time limits or store passwords elsewhere.
+                </p>
+
+                <h4>5.4 Make it Unsatisfying</h4>
+                <p>
+                    Add accountability. When others know, you are less likely to break the habit.
+                </p>
+
+                <h3>6) Environment Design: Willpower Is Not Enough</h3>
+                <p>
+                    Willpower is limited, environment is powerful. Design your environment so good habits are easy and bad habits are hard.
+                </p>
+                <ul>
+                    <li>A dedicated reading desk makes reading easier.</li>
+                    <li>Healthy food in view reduces junk food cravings.</li>
+                </ul>
+
+                <h3>7) Habit Tracking and Consistency</h3>
+                <p>
+                    A habit tracker gives visible proof of progress. If you miss a day, follow the “never miss twice” rule—do it the next day.
+                </p>
+
+                <h3>8) Trust the System, Not Just Goals</h3>
+                <p>
+                    Goals are momentary; systems are daily practices. If the system is sound, results follow. Read, write, and take notes daily, and papers will come with time.
+                </p>
+
+                <h3>9) Identity Is Built Through Evidence</h3>
+                <p>
+                    Identity changes through evidence, not words. Each small action is proof: reading five minutes daily proves you are a reader.
+                </p>
+
+                <h3>10) Applying This to Study & Research: A Practical Framework</h3>
+                <p>
+                    For students and researchers, the same principles apply.
+                </p>
+                <ul>
+                    <li><strong>Obvious:</strong> Keep your research desk ready, papers on top.</li>
+                    <li><strong>Attractive:</strong> Comfortable lighting and quiet music.</li>
+                    <li><strong>Easy:</strong> Start by reading the abstract only.</li>
+                    <li><strong>Satisfying:</strong> Mark progress at the end of each day.</li>
+                </ul>
 
                 <div class="lottie-wrapper" style="margin-top: 2rem;">
                     <div id="student-reading-animation-en" style="width: 100%; height: 100%;"></div>
                 </div>
 
-                <h3>Conclusion</h3>
+                <h3>11) Consistency Over Perfection</h3>
                 <p>
-                    Small habits are the foundation of big change. With identity-based goals, clear cues, and a supportive environment, lasting transformation becomes achievable.
+                    Many quit after one failure. But consistency matters more than perfection. One bad day is not the end; returning quickly is the true win.
+                </p>
+
+                <h3>12) Slow Process, Long‑Term Results</h3>
+                <p>
+                    Habit results are delayed. They compound over time, so patience is essential. Small actions accumulate into major change.
+                </p>
+
+                <h3>13) Weekly Review and System Tuning</h3>
+                <p>
+                    Review weekly: what worked, what didn’t, and adjust. Continuous tuning strengthens your system.
+                </p>
+
+                <h3>14) Examples of Identity‑Based Goals</h3>
+                <ul>
+                    <li>“I am someone who exercises.” → Walk 5 minutes daily.</li>
+                    <li>“I am a writer.” → Write one paragraph daily.</li>
+                    <li>“I am a researcher.” → Read one paper abstract daily.</li>
+                </ul>
+
+                <h3>15) Healthy Rewards</h3>
+                <p>
+                    Keep rewards healthy and sustainable—tea, a short walk, or a small break instead of excessive screen time.
+                </p>
+
+                <h3>16) The Influence of Social Environment</h3>
+                <p>
+                    We are social beings. Surround yourself with people whose habits reflect the identity you seek.
+                </p>
+
+                <h3>17) Using Technology Wisely</h3>
+                <p>
+                    Technology can support habits if used intentionally.
+                </p>
+                <ul>
+                    <li>Use habit‑tracking apps.</li>
+                    <li>Set calendar reminders.</li>
+                    <li>Apply time‑blocking.</li>
+                </ul>
+
+                <h3>18) A Simple Example</h3>
+                <p>
+                    Suppose you meditate for 5 minutes each morning. The cue: right after brushing. Make it attractive with soft music, easy with just 5 minutes, and satisfying with a check mark. In weeks, it becomes part of your identity.
+                </p>
+
+                <h3>19) The Restart Strategy</h3>
+                <p>
+                    Life gets busy. Keep a minimum version—if you can’t study 30 minutes, study 3. This preserves continuity.
+                </p>
+
+                <h3>20) Conclusion</h3>
+                <p>
+                    Tiny habits are not small in impact—they form the foundation of lasting change. With identity‑based goals, clear cues, and environment design, sustainable growth is achievable.
                 </p>
             </div>
         `
@@ -441,6 +589,9 @@ shap.dependence_plot("bmi", shap_values, X_test, interaction_index="bp")
         headerTitle: "ডিপ লার্নিং: ব্ল্যাক বক্স সমস্যা এবং সমাধান",
         headerTitleClass: "bangla-font",
         headerMeta: "By P.K.R. Partho • Jan 2026 • 6 min read • <span class=\"badge badge-conf\">Bangla Article</span>",
+        translationTitle: "Deep Learning: The Black Box Problem and Its Solution",
+        translationTitleClass: "",
+        translationMeta: "By P.K.R. Partho • Jan 2026 • 6 min read • <span class=\"badge badge-conf\">English Translation</span>",
         lottie: [
             {
                 containerId: "online-doctor-animation",
@@ -504,33 +655,39 @@ shap.dependence_plot("bmi", shap_values, X_test, interaction_index="bp")
                     <div id="online-doctor-animation-en" style="width: 100%; height: 100%;"></div>
                 </div>
                 <p>
-                    Artificial Intelligence has achieved remarkable accuracy, yet deep learning models often behave like “black boxes.” In healthcare, predictions without explanations are risky. This article discusses why transparency matters and how Explainable AI (XAI) addresses the issue.
+                    Artificial Intelligence (AI) has created a massive revolution in technology. Deep Learning (DL) models outperform humans in image recognition and natural language processing. Yet a major issue remains: the “Black Box Problem.”
                 </p>
 
-                <h3>What is the Black Box Problem?</h3>
+                <h3>What Is the Black Box Problem?</h3>
                 <p>
-                    A black box system produces outputs without revealing its internal reasoning. Deep neural networks contain millions of parameters, making their logic opaque. For clinical decisions, this lack of interpretability is problematic.
+                    In simple terms, a black box is a system where we give input and receive output, but what happens inside is unknown. Deep learning models, especially deep neural networks, operate through millions of parameters and complex mathematical steps.
+                </p>
+                <p>
+                    For example, if a model predicts pneumonia from an X‑ray but cannot explain <strong>why</strong>, it remains a black box.
                 </p>
 
-                <h3>Why Transparency Matters in Healthcare</h3>
+                <h3>Why Transparency Is Crucial in Healthcare</h3>
+                <p>
+                    If Netflix or YouTube makes a wrong recommendation, the harm is minimal. But in healthcare, an incorrect decision can be disastrous.
+                </p>
                 <ul>
-                    <li><strong>Trust:</strong> Clinicians need to know why a model makes a decision.</li>
-                    <li><strong>Bias Detection:</strong> Explanations expose spurious correlations.</li>
-                    <li><strong>Accountability:</strong> Medical decisions require clear responsibility.</li>
+                    <li><strong>Trust:</strong> Doctors and clinicians will not blindly accept machine decisions. They need to know which part of the X‑ray led to the diagnosis.</li>
+                    <li><strong>Bias:</strong> Is the model truly detecting disease, or is it misled by background artifacts? Without explanations, this is impossible to detect.</li>
+                    <li><strong>Legal and ethical accountability:</strong> If a wrong decision harms a patient, responsibility must be traceable. Transparency is therefore essential.</li>
                 </ul>
 
-                <h3>The Solution: Explainable AI (XAI)</h3>
+                <h3>Solution: Explainable AI (XAI)</h3>
                 <p>
-                    XAI methods maintain performance while making models interpretable. Two widely used methods are:
+                    The rise of Explainable AI aims to solve the black box problem by keeping accuracy while making models interpretable. In my research, I primarily use two popular methods:
                 </p>
                 <ul>
-                    <li><strong>SHAP:</strong> Uses game theory to quantify feature importance.</li>
-                    <li><strong>Grad‑CAM:</strong> Highlights image regions responsible for predictions.</li>
+                    <li><strong>SHAP (Shapley Additive Explanations):</strong> Uses game theory to estimate feature importance, e.g., whether blood pressure or insulin contributes more to a diabetes prediction.</li>
+                    <li><strong>Grad‑CAM (Gradient‑weighted Class Activation Mapping):</strong> Designed for medical imaging; it creates a heatmap showing where the model focused in the image.</li>
                 </ul>
 
                 <h3>Conclusion</h3>
                 <p>
-                    Accuracy alone is insufficient for clinical deployment. Interpretability and trustworthiness are essential to move from black-box models to reliable decision support.
+                    For AI to be fully deployed in healthcare, moving beyond black boxes is essential. Accuracy alone cannot establish AI in clinical practice; transparency and trustworthiness are equally critical.
                 </p>
             </div>
         `
