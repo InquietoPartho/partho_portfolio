@@ -580,6 +580,290 @@ shap.dependence_plot("bmi", shap_values, X_test, interaction_index="bp")
         `
     },
     {
+        id: "lime-tutorial",
+        listMeta: "Feb 2026 • Tutorial • 12 min read",
+        listTitle: "Getting Started with LIME in Python",
+        listSummary: "A detailed, hands-on guide to using Local Interpretable Model-agnostic Explanations (LIME) for interpreting black-box models in healthcare machine learning.",
+        headerTitle: "Opening the Black Box: Interpretable Healthcare AI with LIME",
+        headerMeta: "By P.K.R. Partho • Feb 2026 • 12 min read • <span class=\"badge badge-conf\">XAI Tutorial</span>",
+        contentHtml: `
+            <div class="article-content">
+                <h2>1. Motivation: Why LIME in Healthcare AI?</h2>
+                <p>
+                    Modern healthcare AI relies on complex, high-capacity models (gradient-boosted trees,
+                    deep neural networks, ensembles). These models achieve strong accuracy but create a critical
+                    limitation: <strong>lack of interpretability</strong>.
+                </p>
+                <p>
+                    In clinical decision support systems (CDSS), auditability and clinician trust require
+                    <em>instance-level explanations</em>. LIME (Local Interpretable Model-agnostic Explanations)
+                    fills this gap by building <strong>local, faithful surrogate models</strong> around a single
+                    prediction—without accessing the black-box internals.
+                </p>
+                <p>
+                    The goal is not to replace medical judgment, but to provide a transparent, human-readable
+                    rationale for a specific prediction, which is essential for safety review and responsible deployment.
+                </p>
+
+                <hr/>
+
+                <h2>2. Conceptual Overview of LIME</h2>
+                <p>
+                    LIME explains a prediction by learning an <em>interpretable surrogate model</em>
+                    around a specific input instance. It perturbs the instance, queries the black-box model,
+                    and fits a sparse linear model that best approximates the local decision boundary.
+                </p>
+                <p>
+                    Formally, given a black-box model \( f: \\mathbb{R}^d \\rightarrow \\mathbb{R} \\), LIME optimizes:
+                </p>
+
+                <p style="text-align:center;">
+                \\[
+                \\xi(x) = \\arg\\min_{g \\in G} \\mathcal{L}(f, g, \\pi_x) + \\Omega(g)
+                \\]
+                </p>
+
+                <ul>
+                    <li>\\( g \\): interpretable model (usually sparse linear)</li>
+                    <li>\\( \\pi_x \\): locality kernel centered at instance \\( x \\)</li>
+                    <li>\\( \\mathcal{L} \\): fidelity loss between \\( f \\) and \\( g \\)</li>
+                    <li>\\( \\Omega(g) \\): complexity penalty</li>
+                </ul>
+
+                <p>
+                    Practical steps:
+                </p>
+                <ol>
+                    <li>Perturb the instance to create a neighborhood.</li>
+                    <li>Get predictions from the black-box model.</li>
+                    <li>Weight samples by proximity to the instance.</li>
+                    <li>Fit an interpretable model to approximate the local behavior.</li>
+                </ol>
+
+                <p>
+                    Key property: <strong>local faithfulness over global interpretability</strong>.
+                    This makes LIME particularly suitable for case-by-case clinical explanations.
+                </p>
+
+                <hr/>
+
+                <h2>3. When to Use LIME (and When Not To)</h2>
+
+                <h3>Appropriate Scenarios</h3>
+                <ul>
+                    <li>Black-box models (CNNs, RF, XGBoost, ensembles)</li>
+                    <li>Instance-level clinical decision analysis</li>
+                    <li>Post-hoc regulatory audits</li>
+                </ul>
+
+                <h3>Limitations</h3>
+                <ul>
+                    <li>Instability across random seeds</li>
+                    <li>Sensitivity to feature correlation</li>
+                    <li>No global interpretability guarantees</li>
+                </ul>
+
+                <hr/>
+
+                <h2>4. Installation</h2>
+
+                <pre><code class="language-bash">
+pip install lime scikit-learn numpy pandas matplotlib
+                </code></pre>
+
+                <hr/>
+
+                <h2>5. Tabular Healthcare Example (Risk Prediction)</h2>
+
+                <h3>5.1 Dataset and Model</h3>
+
+                <pre><code class="language-python">
+import numpy as np
+import pandas as pd
+from sklearn.datasets import load_breast_cancer
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
+                </code></pre>
+
+                <pre><code class="language-python">
+# Load dataset (proxy for clinical tabular data)
+X, y = load_breast_cancer(return_X_y=True, as_frame=True)
+
+X_train, X_test, y_train, y_test = train_test_split(
+    X, y, test_size=0.2, stratify=y, random_state=42
+)
+
+model = RandomForestClassifier(
+    n_estimators=200,
+    max_depth=6,
+    random_state=42
+)
+model.fit(X_train, y_train)
+                </code></pre>
+
+                <hr/>
+
+                <h3>5.2 Initializing LIME Tabular Explainer</h3>
+
+                <pre><code class="language-python">
+from lime.lime_tabular import LimeTabularExplainer
+
+explainer = LimeTabularExplainer(
+    training_data=X_train.values,
+    feature_names=X.columns.tolist(),
+    class_names=["Benign", "Malignant"],
+    mode="classification",
+    discretize_continuous=True
+)
+                </code></pre>
+
+                <hr/>
+
+                <h3>5.3 Explaining a Single Prediction</h3>
+
+                <pre><code class="language-python">
+idx = 10
+instance = X_test.iloc[idx].values
+
+exp = explainer.explain_instance(
+    data_row=instance,
+    predict_fn=model.predict_proba,
+    num_features=10
+)
+                </code></pre>
+
+                <pre><code class="language-python">
+exp.show_in_notebook(show_table=True)
+                </code></pre>
+
+                <p>
+                    The explanation represents a sparse linear model: each feature contributes
+                    positively or negatively to the predicted malignancy probability.
+                </p>
+
+                <div class="img-container">
+                    <img src="assets/blog-images/Lime/lime_explanation.png" alt="LIME explanation weights">
+                    <div class="img-caption">Figure 1: LIME explanation showing top contributing features for one patient.</div>
+                </div>
+
+                <hr/>
+
+                <h2>6. Interpreting Clinical Meaning</h2>
+                <p>
+                    In healthcare contexts:
+                </p>
+                <ul>
+                    <li>Positive weights → increased disease risk</li>
+                    <li>Negative weights → protective factors</li>
+                    <li>Magnitude → local importance</li>
+                </ul>
+
+                <p>
+                    LIME explanations should be treated as <strong>decision support artifacts</strong>,
+                    not causal evidence.
+                </p>
+
+                <hr/>
+
+                <h2>7. Visualizing Explanations</h2>
+
+                <pre><code class="language-python">
+fig = exp.as_pyplot_figure()
+                </code></pre>
+
+                <p>
+                    Bar plots improve interpretability during clinician-facing demonstrations
+                    or regulatory reviews.
+                </p>
+
+                <div class="img-container">
+                    <img src="assets/blog-images/Lime/visualization.png" alt="LIME visualization plot">
+                    <div class="img-caption">Figure 2: Visual explanation plot from LIME for clinician-friendly reporting.</div>
+                </div>
+
+                <hr/>
+
+                <h2>8. LIME for Medical Imaging (Conceptual)</h2>
+
+                <p>
+                    For CNN-based radiology or pathology models, LIME:
+                </p>
+                <ul>
+                    <li>Segments the image into superpixels</li>
+                    <li>Perturbs regions on/off</li>
+                    <li>Fits a sparse linear model over superpixels</li>
+                </ul>
+
+                <p>
+                    However, Grad-CAM or Integrated Gradients often provide more stable explanations
+                    for dense imaging modalities.
+                </p>
+
+                <hr/>
+
+                <h2>9. LIME vs SHAP (Practical Perspective)</h2>
+
+                <table style="width:100%; border-collapse: collapse; margin: 1rem 0;">
+                    <thead>
+                        <tr>
+                            <th style="text-align:left; border-bottom: 2px solid #e5e7eb; padding: 0.6rem;">Aspect</th>
+                            <th style="text-align:left; border-bottom: 2px solid #e5e7eb; padding: 0.6rem;">LIME</th>
+                            <th style="text-align:left; border-bottom: 2px solid #e5e7eb; padding: 0.6rem;">SHAP</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Explanation Scope</td>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Local</td>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Local + Global</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Theoretical Guarantees</td>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Weaker</td>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Stronger (Game Theory)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Computation</td>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Fast, model-agnostic</td>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Model-dependent</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Healthcare Deployment</td>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Prototyping, demos</td>
+                            <td style="padding: 0.6rem; border-bottom: 1px solid #e5e7eb;">Audits, publications</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr/>
+
+                <h2>10. Best Practices for Healthcare Research</h2>
+                <ul>
+                    <li>Fix random seeds for reproducibility</li>
+                    <li>Run multiple explanations and report stability</li>
+                    <li>Use domain-aware feature engineering</li>
+                    <li>Combine LIME with SHAP or counterfactuals</li>
+                    <li>Validate explanations with clinicians</li>
+                </ul>
+
+                <hr/>
+
+                <h2>11. Summary</h2>
+                <p>
+                    LIME provides an accessible, model-agnostic pathway to interpret black-box predictions
+                    at the individual patient level. While not theoretically rigorous,
+                    it remains valuable for exploratory analysis, prototyping, and clinician engagement.
+                </p>
+
+                <p>
+                    For peer-reviewed healthcare AI systems, LIME should be used
+                    <strong>in conjunction with more principled XAI methods</strong>,
+                    rather than as a standalone interpretability solution.
+                </p>
+            </div>
+        `
+    },
+    {
         id: "dl-blackbox",
         listMeta: "Jan 2026 • Bangla Article • 6 min read",
         listTitle: "ডিপ লার্নিং: ব্ল্যাক বক্স সমস্যা এবং সমাধান",

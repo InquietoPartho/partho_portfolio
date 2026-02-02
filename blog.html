@@ -20,6 +20,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Anek+Bangla:wght@300;400;600&family=Source+Serif+4:wght@300;400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lottie-web/5.12.2/lottie.min.js"></script>
     <style>
         :root {
@@ -253,6 +254,17 @@
         .article-content { font-size: 1.1rem; color: var(--text-main); line-height: 1.9; text-align: justify; text-justify: inter-word; }
         .article-content p { margin-bottom: 1.5rem; text-align: justify; text-justify: inter-word; }
         .article-content li { text-align: justify; text-justify: inter-word; }
+        .article-content img:not([src*="/Lime/"]):not([src*="\\Lime\\"]):not([src*="Lime/"]) {
+            width: 100%;
+            max-width: 880px;
+            height: auto;
+            max-height: 560px;
+            object-fit: contain;
+            display: block;
+            margin: 1.8rem auto;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
         .translation-toggle {
             display: inline-flex;
             gap: 0.6rem;
@@ -291,7 +303,24 @@
             border-left: 4px solid var(--primary);
         }
         .img-container { margin: 2.5rem 0; text-align: center; }
-        .img-container img { max-width: 100%; border-radius: 8px; border: 1px solid var(--border); }
+        .img-container img:not([src*="/Lime/"]):not([src*="\\Lime\\"]):not([src*="Lime/"]) {
+            width: 100%;
+            max-width: 880px;
+            height: auto;
+            max-height: 560px;
+            object-fit: contain;
+            border-radius: 8px;
+            border: 1px solid var(--border);
+        }
+        .img-container img[src*="Lime/lime_explanation.png"],
+        .img-container img[src*="Lime\\lime_explanation.png"],
+        .img-container img[src*="shap_force_plot.png"] {
+            max-width: 880px;
+            height: auto;
+            max-height: 560px;
+            object-fit: contain;
+            background: #ffffff;
+        }
         .img-caption { font-size: 0.9rem; color: var(--text-light); margin-top: 0.8rem; font-style: italic; font-family: 'Source Serif 4', serif; }
         .btn-back { display: inline-block; margin-bottom: 1.5rem; color: var(--primary); font-weight: 600; cursor: pointer; font-family: 'Source Serif 4', serif; display: flex; align-items: center; }
         .btn-back i { margin-right: 8px; }
@@ -369,6 +398,8 @@
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
     <script src="assets/supabase-config.js"></script>
     <script src="assets/blog-analytics.js"></script>
     <script src="assets/blog-articles.js"></script>
@@ -562,7 +593,27 @@
                                     headerMeta.innerHTML = metaBn;
                                 }
                             }
+                            if (window.renderMathInElement) {
+                                renderMathInElement(detailEl, {
+                                    delimiters: [
+                                        { left: "$$", right: "$$", display: true },
+                                        { left: "\\[", right: "\\]", display: true },
+                                        { left: "\\(", right: "\\)", display: false },
+                                    ],
+                                    throwOnError: false,
+                                });
+                            }
                         });
+                    });
+                }
+                if (window.renderMathInElement) {
+                    renderMathInElement(detailEl, {
+                        delimiters: [
+                            { left: "$$", right: "$$", display: true },
+                            { left: "\\[", right: "\\]", display: true },
+                            { left: "\\(", right: "\\)", display: false },
+                        ],
+                        throwOnError: false,
                     });
                 }
             }
@@ -615,6 +666,12 @@
                 const data = await window.fetchPublishedArticles();
                 if (data && data.length) {
                     articles = data.map(normalizeArticle);
+                    const localArticles = window.blogArticles || [];
+                    localArticles.forEach(local => {
+                        if (!articles.find(item => item.id === local.id)) {
+                            articles.push(local);
+                        }
+                    });
                 }
             }
             if (!articles.length) {

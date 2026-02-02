@@ -13,13 +13,19 @@
         if (!articleId) return;
         const sessionKey = `viewed:${articleId}`;
         if (sessionStorage.getItem(sessionKey)) return;
-        sessionStorage.setItem(sessionKey, "1");
 
         try {
             const { error } = await supabase.rpc("increment_article_view_monthly", { article_id_input: articleId });
-            if (error) {
-                await supabase.rpc("increment_article_view", { article_id_input: articleId });
+            if (!error) {
+                sessionStorage.setItem(sessionKey, "1");
+                return;
             }
+            const { error: fallbackError } = await supabase.rpc("increment_article_view", { article_id_input: articleId });
+            if (!fallbackError) {
+                sessionStorage.setItem(sessionKey, "1");
+                return;
+            }
+            console.warn("Failed to increment view", fallbackError || error);
         } catch (error) {
             console.warn("Failed to increment view", error);
         }
