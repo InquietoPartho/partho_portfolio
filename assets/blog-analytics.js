@@ -16,11 +16,33 @@
         sessionStorage.setItem(sessionKey, "1");
 
         try {
-            await supabase.rpc("increment_article_view", { article_id_input: articleId });
+            const { error } = await supabase.rpc("increment_article_view_monthly", { article_id_input: articleId });
+            if (error) {
+                await supabase.rpc("increment_article_view", { article_id_input: articleId });
+            }
         } catch (error) {
             console.warn("Failed to increment view", error);
         }
     }
 
+    async function fetchMonthlyViews() {
+        const monthKey = new Date().toISOString().slice(0, 7);
+        const { data, error } = await supabase
+            .from("article_views_monthly")
+            .select("article_id, views")
+            .eq("month", monthKey);
+
+        if (error) {
+            console.warn("Failed to fetch monthly views", error);
+            return {};
+        }
+
+        return (data || []).reduce((map, row) => {
+            map[row.article_id] = row.views;
+            return map;
+        }, {});
+    }
+
     window.trackArticleView = incrementView;
+    window.fetchMonthlyViews = fetchMonthlyViews;
 })();
