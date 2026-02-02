@@ -36,6 +36,7 @@
     }
 
     async function loadViews() {
+        const monthKey = new Date().toISOString().slice(0, 7);
         const { data, error } = await supabase
             .from("article_views")
             .select("article_id, views")
@@ -47,9 +48,26 @@
             return;
         }
 
+        const { data: monthlyData, error: monthlyError } = await supabase
+            .from("article_views_monthly")
+            .select("article_id, views")
+            .eq("month", monthKey);
+
+        if (monthlyError) {
+            loginError.textContent = monthlyError.message;
+            loginError.classList.remove("hidden");
+            return;
+        }
+
+        const monthlyMap = (monthlyData || []).reduce((map, row) => {
+            map[row.article_id] = row.views;
+            return map;
+        }, {});
+
         viewsTable.innerHTML = (data || []).map(row => {
             const title = articles[row.article_id] || row.article_id;
-            return `<tr><td>${title}</td><td>${row.views}</td></tr>`;
+            const monthlyViews = monthlyMap[row.article_id] ?? 0;
+            return `<tr><td>${title}</td><td>${row.views}</td><td>${monthlyViews}</td></tr>`;
         }).join("");
     }
 

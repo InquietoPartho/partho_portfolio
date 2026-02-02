@@ -434,7 +434,7 @@
                 return `
                     <article class="article-card" data-article="${article.id}">
                         <a class="article-link" href="#${article.id}" aria-label="Open ${article.listTitle}">
-                            <div class="pub-meta">${article.listMeta} • <span class="reads-month" data-article="${article.id}">Reads this month: —</span></div>
+                            <div class="pub-meta">${article.listMeta} • <span class="reads-month" data-article="${article.id}">Total reads: —</span></div>
                             <div class="article-title${titleClass}">${article.listTitle}</div>
                             <p${summaryClassAttr}>${article.listSummary}</p>
                         </a>
@@ -451,12 +451,12 @@
                 });
             });
 
-            if (window.fetchMonthlyViews) {
-                window.fetchMonthlyViews().then(counts => {
+            if (window.fetchTotalViews) {
+                window.fetchTotalViews().then(counts => {
                     listContainer.querySelectorAll('.reads-month').forEach(span => {
                         const articleId = span.getAttribute('data-article');
                         const count = counts[articleId] ?? 0;
-                        span.textContent = `Reads this month: ${count}`;
+                        span.textContent = `Total reads: ${count}`;
                     });
                 });
             }

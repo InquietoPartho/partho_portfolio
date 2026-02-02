@@ -74,6 +74,12 @@ create policy "Admin can read views"
   to authenticated
   using (auth.jwt() ->> 'email' = 'pijushkantiroy2040@gmail.com');
 
+create policy "Public can read total views"
+  on public.article_views
+  for select
+  to anon
+  using (true);
+
 create policy "Public can read monthly views"
   on public.article_views_monthly
   for select

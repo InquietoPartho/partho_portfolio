@@ -25,15 +25,13 @@
         }
     }
 
-    async function fetchMonthlyViews() {
-        const monthKey = new Date().toISOString().slice(0, 7);
+    async function fetchTotalViews() {
         const { data, error } = await supabase
-            .from("article_views_monthly")
-            .select("article_id, views")
-            .eq("month", monthKey);
+            .from("article_views")
+            .select("article_id, views");
 
         if (error) {
-            console.warn("Failed to fetch monthly views", error);
+            console.warn("Failed to fetch total views", error);
             return {};
         }
 
@@ -44,5 +42,5 @@
     }
 
     window.trackArticleView = incrementView;
-    window.fetchMonthlyViews = fetchMonthlyViews;
+    window.fetchTotalViews = fetchTotalViews;
 })();
