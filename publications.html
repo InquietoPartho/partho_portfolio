@@ -232,31 +232,89 @@
 
         .main-content {
             grid-column: 2;
-            padding: 4rem 5rem;
-            max-width: 1000px;
+            padding: 4rem 4.5rem;
+            max-width: 900px;
             margin: 0 auto;
             width: 100%;
             animation: fadeIn 0.5s ease;
         }
-        h1 { font-size: 2.2rem; font-weight: 800; line-height: 1.2; margin-bottom: 0.5rem; }
-        .subtitle { font-size: 1.1rem; color: var(--text-light); margin-bottom: 2.5rem; font-weight: 400; }
+        h1 { font-size: 2.05rem; font-weight: 700; line-height: 1.3; margin-bottom: 0.5rem; }
+        .subtitle { font-size: 1rem; color: var(--text-light); margin-bottom: 2.2rem; font-weight: 400; }
 
         .pub-section-header {
-            font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.2px; color: var(--text-light);
-            font-weight: 700; margin-top: 2.5rem; margin-bottom: 1.2rem; display: flex; align-items: center;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-light);
+            font-weight: 700;
+            margin-top: 2.4rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
         }
-        .pub-section-header::after { content: ""; flex: 1; height: 1px; background: var(--border); margin-left: 1rem; }
+        .pub-section-header::after { content: ""; flex: 1; height: 1px; background: var(--border); margin-left: 0.6rem; }
 
-        .pub-item { margin-bottom: 2rem; padding-left: 1rem; border-left: 2px solid transparent; transition: 0.2s; }
-        .pub-item:hover { border-left-color: var(--primary); }
-        .pub-title { font-weight: 700; font-size: 1.1rem; color: var(--text-main); display: block; margin-bottom: 4px; }
-        .pub-meta { font-size: 0.95rem; color: var(--text-light); }
-        .highlight-name { font-weight: 700; color: var(--text-main); }
+        .pub-item {
+            margin-bottom: 1.4rem;
+            padding: 0.2rem 0 0.2rem 0;
+            border: none;
+            background: transparent;
+        }
+        .pub-title {
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--text-main);
+            display: block;
+            margin-bottom: 6px;
+        }
+        .pub-meta { font-size: 0.95rem; color: var(--text-light); line-height: 1.6; }
+        .highlight-name { font-weight: 600; color: var(--text-main); }
+        .cite-row {
+            margin-top: 0.4rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-light);
+        }
+        .cite-row select {
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-main);
+            padding: 0.2rem 0.5rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .cite-btn {
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-main);
+            padding: 0.25rem 0.6rem;
+            border-radius: 999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .cite-text { font-family: 'Source Serif 4', serif; }
 
-        .badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; margin-left: 8px; vertical-align: middle; }
-        .badge-conf { background: #dbeafe; color: #1e40af; }
-        .badge-book { background: #fef3c7; color: #92400e; }
-        .badge-review { background: var(--border); color: var(--text-light); }
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 999px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin-left: 6px;
+            vertical-align: middle;
+            border: 1px solid var(--border);
+            color: var(--text-light);
+            background: transparent;
+        }
+        .badge-conf,
+        .badge-book,
+        .badge-review { background: transparent; color: var(--text-light); }
 
         @media (max-width: 900px) {
             .layout { grid-template-columns: 1fr; }
@@ -329,6 +387,15 @@
                 <div class="pub-meta">
                     <em>27th International Conference on Computer and Information Technology (ICCIT)</em>, 2024. <span class="badge badge-conf">IEEE</span>
                 </div>
+                <div class="cite-row" data-cite-apa="Partho, P. K. R., Rafi, M. A. H., & Bhowmik, P. (2024). Plant Leaf Disease Detection Incorporating IoT and XAI-Enhanced Deep Learning. In 27th International Conference on Computer and Information Technology (ICCIT). IEEE. https://doi.org/10.1109/ICCIT64611.2024.11021966" data-cite-ieee="P. K. R. Partho, M. A. H. Rafi, and P. Bhowmik, \"Plant Leaf Disease Detection Incorporating IoT and XAI-Enhanced Deep Learning,\" in 27th International Conference on Computer and Information Technology (ICCIT), 2024, IEEE, doi: 10.1109/ICCIT64611.2024.11021966." data-cite-bibtex="@inproceedings{partho2024iccit,\n  title={Plant Leaf Disease Detection Incorporating IoT and XAI-Enhanced Deep Learning},\n  author={Partho, P. K. R. and Rafi, M. A. H. and Bhowmik, P.},\n  booktitle={27th International Conference on Computer and Information Technology (ICCIT)},\n  year={2024},\n  organization={IEEE},\n  doi={10.1109/ICCIT64611.2024.11021966}\n}">
+                    <select class="cite-style" aria-label="Citation style">
+                        <option value="apa">APA</option>
+                        <option value="ieee">IEEE</option>
+                        <option value="bibtex">BibTeX</option>
+                    </select>
+                    <button class="cite-btn" type="button">Copy citation</button>
+                    <span class="cite-text">Partho, P. K. R., Rafi, M. A. H., &amp; Bhowmik, P. (2024). Plant Leaf Disease Detection Incorporating IoT and XAI-Enhanced Deep Learning. In 27th International Conference on Computer and Information Technology (ICCIT). IEEE.</span>
+                </div>
             </div>
 
             <div class="pub-item">
@@ -338,6 +405,15 @@
                 </div>
                 <div class="pub-meta">
                     <em>2nd International Conference on Next-Generation Computing, IoT and Machine Learning (NCIM)</em>, 2025. <span class="badge badge-conf">IEEE</span>
+                </div>
+                <div class="cite-row" data-cite-apa="Partho, P. K., Bhowmik, P., & Nasir, M. K. (2025). An Interpretable Ensemble Framework Towards Efficient Hypertension Risk Assessment. In 2nd International Conference on Next-Generation Computing, IoT and Machine Learning (NCIM). IEEE. https://doi.org/10.1109/NCIM65934.2025.11159863" data-cite-ieee="P. K. Partho, P. Bhowmik, and M. K. Nasir, \"An Interpretable Ensemble Framework Towards Efficient Hypertension Risk Assessment,\" in 2nd International Conference on Next-Generation Computing, IoT and Machine Learning (NCIM), 2025, IEEE, doi: 10.1109/NCIM65934.2025.11159863." data-cite-bibtex="@inproceedings{partho2025ncim,\n  title={An Interpretable Ensemble Framework Towards Efficient Hypertension Risk Assessment},\n  author={Partho, P. K. and Bhowmik, P. and Nasir, M. K.},\n  booktitle={2nd International Conference on Next-Generation Computing, IoT and Machine Learning (NCIM)},\n  year={2025},\n  organization={IEEE},\n  doi={10.1109/NCIM65934.2025.11159863}\n}">
+                    <select class="cite-style" aria-label="Citation style">
+                        <option value="apa">APA</option>
+                        <option value="ieee">IEEE</option>
+                        <option value="bibtex">BibTeX</option>
+                    </select>
+                    <button class="cite-btn" type="button">Copy citation</button>
+                    <span class="cite-text">Partho, P. K., Bhowmik, P., &amp; Nasir, M. K. (2025). An Interpretable Ensemble Framework Towards Efficient Hypertension Risk Assessment. In 2nd International Conference on Next-Generation Computing, IoT and Machine Learning (NCIM). IEEE.</span>
                 </div>
             </div>
 
@@ -421,6 +497,34 @@
                 clearTimeout(hideTimer);
                 hideTimer = setTimeout(autoHideSidebar, 200);
             }
+        });
+
+        document.querySelectorAll('.cite-row').forEach(row => {
+            const button = row.querySelector('.cite-btn');
+            const select = row.querySelector('.cite-style');
+            if (!button) return;
+            button.addEventListener('click', async () => {
+                const style = select ? select.value : 'apa';
+                const text = row.getAttribute(`data-cite-${style}`) || '';
+                if (!text) return;
+                try {
+                    await navigator.clipboard.writeText(text);
+                    button.textContent = 'Copied';
+                    setTimeout(() => { button.textContent = 'Copy citation'; }, 1500);
+                } catch (error) {
+                    const fallback = document.createElement('textarea');
+                    fallback.value = text;
+                    fallback.setAttribute('readonly', '');
+                    fallback.style.position = 'absolute';
+                    fallback.style.left = '-9999px';
+                    document.body.appendChild(fallback);
+                    fallback.select();
+                    document.execCommand('copy');
+                    document.body.removeChild(fallback);
+                    button.textContent = 'Copied';
+                    setTimeout(() => { button.textContent = 'Copy citation'; }, 1500);
+                }
+            });
         });
 
         if (mainContentEl) {
