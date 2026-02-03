@@ -110,6 +110,17 @@
         table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
         th, td { text-align: left; padding: 0.75rem 0; border-bottom: 1px solid rgba(148, 163, 184, 0.2); }
         th { color: var(--text-muted); font-weight: 600; }
+        .comment-text { max-width: 520px; white-space: pre-wrap; color: var(--text); }
+        .comment-meta { font-size: 0.9rem; color: var(--text-muted); }
+        .danger-btn {
+            background: linear-gradient(135deg, #ef4444, #f97316);
+            color: #fff;
+            border: none;
+            padding: 0.45rem 0.9rem;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+        }
         .hidden { display: none; }
         .error { color: #f87171; margin-top: 0.5rem; }
         .tabs { display: inline-flex; gap: 0.4rem; margin-bottom: 1rem; padding: 0.4rem; background: rgba(148,163,184,0.12); border-radius: 999px; border: 1px solid var(--border); }
@@ -272,6 +283,31 @@
                         </tr>
                     </thead>
                     <tbody id="views-table"></tbody>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="card-header">
+                    <h2>Article Comments</h2>
+                    <div class="panel-actions">
+                        <select id="comments-filter">
+                            <option value="all">All articles</option>
+                        </select>
+                        <button id="comments-refresh-btn" class="secondary">Refresh</button>
+                    </div>
+                </div>
+                <div id="comments-status" class="help"></div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Article</th>
+                            <th>Author</th>
+                            <th>Comment</th>
+                            <th>Posted</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="comments-table"></tbody>
                 </table>
             </div>
 

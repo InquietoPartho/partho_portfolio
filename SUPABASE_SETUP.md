@@ -8,6 +8,8 @@
 Run this SQL in Supabase SQL editor:
 
 ```sql
+create extension if not exists pgcrypto;
+
 create table if not exists public.articles (
   id text primary key,
   status text not null default 'published',
@@ -41,6 +43,20 @@ create table if not exists public.article_views_monthly (
   views bigint not null default 0,
   updated_at timestamptz not null default now(),
   primary key (article_id, month)
+);
+
+create table if not exists public.article_reactions (
+  article_id text primary key,
+  loves bigint not null default 0,
+  updated_at timestamptz not null default now()
+);
+
+create table if not exists public.article_comments (
+  id uuid primary key default gen_random_uuid(),
+  article_id text not null,
+  name text not null,
+  comment text not null,
+  created_at timestamptz not null default now()
 );
 
 create or replace function public.increment_article_view(article_id_input text)
@@ -78,6 +94,20 @@ begin
       updated_at = now();
 end;
 $$;
+
+create or replace function public.increment_article_love(article_id_input text)
+returns void
+language plpgsql
+security definer
+as $$
+begin
+  insert into public.article_reactions (article_id, loves)
+  values (article_id_input, 1)
+  on conflict (article_id) do update
+  set loves = public.article_reactions.loves + 1,
+      updated_at = now();
+end;
+$$;
 ```
 
 ## 3) Enable RLS and policies
@@ -85,6 +115,8 @@ $$;
 alter table public.article_views enable row level security;
 alter table public.article_views_monthly enable row level security;
 alter table public.articles enable row level security;
+alter table public.article_reactions enable row level security;
+alter table public.article_comments enable row level security;
 
 -- Allow anonymous users to call the increment function (RPC), but not select data.
 -- No select policy for anon users.
@@ -101,6 +133,30 @@ create policy "Public can read total views"
   for select
   to anon
   using (true);
+
+create policy "Public can read total loves"
+  on public.article_reactions
+  for select
+  to anon
+  using (true);
+
+create policy "Public can read comments"
+  on public.article_comments
+  for select
+  to anon
+  using (true);
+
+create policy "Public can add comments"
+  on public.article_comments
+  for insert
+  to anon
+  with check (true);
+
+create policy "Admin can delete comments"
+  on public.article_comments
+  for delete
+  to authenticated
+  using (auth.jwt() ->> 'email' = 'pijushkantiroy2040@gmail.com');
 
 create policy "Public can read published articles"
   on public.articles
