@@ -140,6 +140,25 @@ create policy "Public can read total loves"
   to anon
   using (true);
 
+create policy "Authenticated can read total loves"
+  on public.article_reactions
+  for select
+  to authenticated
+  using (true);
+
+create policy "Public can add loves"
+  on public.article_reactions
+  for insert
+  to anon
+  with check (true);
+
+create policy "Public can update loves"
+  on public.article_reactions
+  for update
+  to anon
+  using (true)
+  with check (true);
+
 create policy "Public can read comments"
   on public.article_comments
   for select

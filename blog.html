@@ -33,9 +33,9 @@
             --text-light: #4b5563;
             --bg-sidebar: var(--bg-page);
             --bg-main: #ffffff;
-            --bg-page: radial-gradient(1200px 500px at 10% -10%, rgba(255, 242, 226, 0.85), transparent),
-                       radial-gradient(900px 400px at 90% 0%, rgba(255, 238, 220, 0.8), transparent),
-                       linear-gradient(180deg, #fffaf5 0%, #ffffff 55%, #fff7ed 100%);
+            --bg-page: radial-gradient(1200px 500px at 10% -10%, rgba(255, 248, 238, 0.6), transparent),
+                       radial-gradient(900px 400px at 90% 0%, rgba(255, 245, 235, 0.55), transparent),
+                       linear-gradient(180deg, #ffffff 0%, #ffffff 60%, #fffaf2 100%);
             --border: #e5e7eb;
             --quote-bg: #f3f4f6;
             --accent: #10b981;
@@ -43,19 +43,19 @@
             --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
         }
         [data-theme="dark"] {
-            --primary: #60a5fa;
-            --primary-light: rgba(37, 99, 235, 0.15);
-            --text-main: #f1f5f9;
-            --text-light: #94a3b8;
+            --primary: #7aa2ff;
+            --primary-light: rgba(122, 162, 255, 0.18);
+            --text-main: #e5edf5;
+            --text-light: #9fb0c4;
             --bg-sidebar: var(--bg-page);
-            --bg-main: #1e293b;
-            --bg-page: radial-gradient(900px 400px at 10% -10%, rgba(255, 200, 140, 0.22), transparent),
-                       radial-gradient(800px 320px at 90% 0%, rgba(246, 173, 85, 0.18), transparent),
-                       linear-gradient(180deg, #111827 0%, #1f2937 55%, #2d3748 100%);
-            --border: #334155;
-            --quote-bg: #020617;
-            --img-border: #334155;
-            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5);
+            --bg-main: #111827;
+            --bg-page: radial-gradient(900px 420px at 12% -8%, rgba(74, 108, 188, 0.18), transparent),
+                       radial-gradient(820px 360px at 88% 0%, rgba(67, 96, 168, 0.16), transparent),
+                       linear-gradient(180deg, #0b1220 0%, #111827 55%, #162033 100%);
+            --border: #243041;
+            --quote-bg: #0b1220;
+            --img-border: #243041;
+            --shadow: 0 4px 8px -2px rgba(0, 0, 0, 0.6);
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -253,6 +253,16 @@
         .article-link:hover { color: var(--text-main); text-decoration: none; }
         .article-full { display: none; animation: fadeIn 0.4s ease; padding-bottom: 4rem; }
         .article-header { margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .pub-meta {
+            font-size: 0.9rem;
+            color: var(--text-light);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.35rem;
+            align-items: center;
+        }
+        .pub-meta .meta-counts { display: inline-flex; flex-wrap: wrap; gap: 0.35rem; align-items: center; }
+        .pub-meta .meta-sep { opacity: 0.6; }
         .article-content { font-size: 1.1rem; color: var(--text-main); line-height: 1.9; text-align: justify; text-justify: inter-word; }
         .article-content p { margin-bottom: 1.5rem; text-align: justify; text-justify: inter-word; }
         .article-content li { text-align: justify; text-justify: inter-word; }
@@ -449,6 +459,10 @@
             .mobile-toggle { display: block; }
             .main-content { grid-column: 1; padding: 5rem 1.5rem 2rem 1.5rem; }
         }
+        @media (max-width: 600px) {
+            .pub-meta { flex-direction: column; align-items: flex-start; gap: 0.2rem; }
+            .pub-meta .meta-sep { display: none; }
+        }
 
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(10px); }
@@ -608,7 +622,17 @@
                 return `
                     <article class="article-card" data-article="${article.id}">
                         <a class="article-link" href="#${article.id}" aria-label="Open ${article.listTitle}">
-                            <div class="pub-meta">${article.listMeta} • <span class="reads-month" data-article="${article.id}">Total reads: —</span> • <span class="loves-total" data-article="${article.id}">Loves: —</span> • <span class="comments-total" data-article="${article.id}">Comments: —</span></div>
+                            <div class="pub-meta">
+                                <span class="meta-primary">${article.listMeta}</span>
+                                <span class="meta-sep">•</span>
+                                <span class="meta-counts">
+                                    <span class="reads-month" data-article="${article.id}">Total reads: —</span>
+                                    <span class="meta-sep">•</span>
+                                    <span class="loves-total" data-article="${article.id}">Loves: —</span>
+                                    <span class="meta-sep">•</span>
+                                    <span class="comments-total" data-article="${article.id}">Comments: —</span>
+                                </span>
+                            </div>
                             <div class="article-title${titleClass}">${article.listTitle}</div>
                             <p${summaryClassAttr}>${article.listSummary}</p>
                         </a>

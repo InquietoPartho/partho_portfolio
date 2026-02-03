@@ -61,7 +61,41 @@
                 localStorage.setItem(sessionKey, "1");
                 return { success: true };
             }
-            console.warn("Failed to increment love", error);
+            console.warn("Failed to increment love via RPC, trying direct update", error);
+            const { data: existing, error: selectError } = await supabase
+                .from("article_reactions")
+                .select("loves")
+                .eq("article_id", articleId)
+                .maybeSingle();
+
+            if (selectError) {
+                console.warn("Failed to read love count", selectError);
+                return { success: false };
+            }
+
+            if (!existing) {
+                const { error: insertError } = await supabase
+                    .from("article_reactions")
+                    .insert({ article_id: articleId, loves: 1 });
+                if (!insertError) {
+                    localStorage.setItem(sessionKey, "1");
+                    return { success: true };
+                }
+                console.warn("Failed to insert love count", insertError);
+                return { success: false };
+            }
+
+            const nextLoves = (existing.loves || 0) + 1;
+            const { error: updateError } = await supabase
+                .from("article_reactions")
+                .update({ loves: nextLoves })
+                .eq("article_id", articleId);
+
+            if (!updateError) {
+                localStorage.setItem(sessionKey, "1");
+                return { success: true };
+            }
+            console.warn("Failed to update love count", updateError);
         } catch (error) {
             console.warn("Failed to increment love", error);
         }
