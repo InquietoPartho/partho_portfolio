@@ -8,6 +8,7 @@
     }
 
     const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    window.supabaseClient = supabase;
 
     async function incrementView(articleId) {
         if (!articleId) return;

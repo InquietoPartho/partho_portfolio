@@ -185,6 +185,21 @@
             return map;
         }, {});
 
+        const { data: reactionsData, error: reactionsError } = await supabase
+            .from("article_reactions")
+            .select("article_id, loves");
+
+        if (reactionsError) {
+            loginError.textContent = reactionsError.message;
+            loginError.classList.remove("hidden");
+            return;
+        }
+
+        const reactionsMap = (reactionsData || []).reduce((map, row) => {
+            map[row.article_id] = row.loves;
+            return map;
+        }, {});
+
         const viewsMap = (data || []).reduce((map, row) => {
             map[row.article_id] = row.views;
             return map;
@@ -194,7 +209,8 @@
             const title = row.list_title || articles[row.id] || row.id;
             const totalViews = viewsMap[row.id] ?? 0;
             const monthlyViews = monthlyMap[row.id] ?? 0;
-            return `<tr><td>${title}</td><td>${totalViews}</td><td>${monthlyViews}</td></tr>`;
+            const totalReacts = reactionsMap[row.id] ?? 0;
+            return `<tr><td>${title}</td><td>${totalViews}</td><td>${monthlyViews}</td><td>${totalReacts}</td></tr>`;
         }).join("");
 
         loadComments();

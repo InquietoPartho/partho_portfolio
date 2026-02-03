@@ -3,18 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog | P.K.R. Partho</title>
-        <meta name="description" content="ML/DL articles on explainable AI, tutorials, and research notes by P.K.R. Partho.">
+    <title>Partho XAI Lab | ML/DL Tutorials</title>
+        <meta name="description" content="ML/DL tutorials, explainable AI (XAI) notes, and research articles by Pijush Kanti Roy Partho.">
+        <meta name="keywords" content="Partho XAI Lab, Pijush Kanti Roy Partho, ML/DL tutorials, explainable AI, XAI, machine learning, deep learning">
+        <meta name="author" content="Pijush Kanti Roy Partho">
         <meta name="robots" content="index,follow">
         <link rel="canonical" href="https://inquietopartho.github.io/partho_portfolio/blog.html">
-        <meta property="og:title" content="ML/DL Articles | P.K.R. Partho">
-        <meta property="og:description" content="ML/DL articles on explainable AI, tutorials, and research notes.">
+        <meta property="og:title" content="Partho XAI Lab | ML/DL Tutorials">
+        <meta property="og:description" content="ML/DL tutorials, explainable AI (XAI) notes, and research articles by Pijush Kanti Roy Partho.">
         <meta property="og:type" content="website">
         <meta property="og:url" content="https://inquietopartho.github.io/partho_portfolio/blog.html">
         <meta property="og:image" content="https://inquietopartho.github.io/partho_portfolio/assets/images/Patho.png">
         <meta name="twitter:card" content="summary_large_image">
-        <meta name="twitter:title" content="ML/DL Articles | P.K.R. Partho">
-        <meta name="twitter:description" content="ML/DL articles on explainable AI, tutorials, and research notes.">
+        <meta name="twitter:title" content="Partho XAI Lab | ML/DL Tutorials">
+        <meta name="twitter:description" content="ML/DL tutorials, explainable AI (XAI) notes, and research articles by Pijush Kanti Roy Partho.">
         <meta name="twitter:image" content="https://inquietopartho.github.io/partho_portfolio/assets/images/Patho.png">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -315,13 +317,46 @@
             font-weight: 600;
             cursor: pointer;
             transition: 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .love-btn .heart-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            transition: transform 0.2s ease, color 0.2s ease;
         }
         .love-btn.is-loved {
             color: #ef4444;
             border-color: rgba(239, 68, 68, 0.4);
             background: rgba(239, 68, 68, 0.08);
         }
+        .love-btn.is-loved .heart-icon { color: #ef4444; }
         .love-btn:disabled { cursor: not-allowed; opacity: 0.7; }
+        .love-btn.animate .heart-icon { animation: heart-pop 0.5s ease; }
+        .love-btn .heart-burst {
+            position: absolute;
+            inset: 50% auto auto 50%;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: rgba(239, 68, 68, 0.55);
+            transform: translate(-50%, -50%) scale(0);
+            opacity: 0;
+            pointer-events: none;
+        }
+        .love-btn.animate .heart-burst { animation: heart-burst 0.6s ease; }
+        @keyframes heart-pop {
+            0% { transform: scale(1); }
+            45% { transform: scale(1.35); }
+            100% { transform: scale(1); }
+        }
+        @keyframes heart-burst {
+            0% { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+            30% { opacity: 0.9; }
+            100% { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+        }
         .engagement-stat { font-weight: 600; color: var(--text-light); }
 
         .comments-section {
@@ -426,7 +461,7 @@
     <div class="layout">
         <aside class="sidebar" id="sidebar">
             <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
-                <a href="index.html" class="logo">PKR Partho.</a>
+                <a href="index.html" class="logo">Partho XAI Lab</a>
                 <img src="assets/images/Patho.png" alt="Pijush Kanti Roy Partho" class="profile-img">
                 <div style="font-weight: 700; font-size: 1.05rem; color: var(--text-main);">P.K. Roy Partho</div>
                 <div class="sidebar-subtitle">Dinajpur, Bangladesh</div>
@@ -464,8 +499,8 @@
 
         <main class="main-content">
         <div id="article-list">
-            <h2>Research Articles in ML/DL</h2>
-            <p class="subtitle">Tutorials, research notes, and perspectives on explainable AI.</p>
+            <h2>ML/DL Tutorials & Research Articles</h2>
+            <p class="subtitle">Partho XAI Lab tutorials, research notes, and perspectives on explainable AI.</p>
             <div id="articles-container"></div>
         </div>
 
@@ -621,6 +656,36 @@
             }
         }
 
+        function updateLoveCounters(articleId, count) {
+            const listBadge = document.querySelector(`.loves-total[data-article="${articleId}"]`);
+            if (listBadge) {
+                listBadge.textContent = `Loves: ${count}`;
+            }
+            const detailLove = document.querySelector('.article-engagement .love-count');
+            const detailWrap = document.querySelector('.article-engagement');
+            if (detailLove && detailWrap && detailWrap.getAttribute('data-article') === articleId) {
+                detailLove.textContent = count;
+            }
+        }
+
+        function subscribeToReactions() {
+            if (!window.supabaseClient) return;
+            if (window.reactionChannel) return;
+            window.reactionChannel = window.supabaseClient
+                .channel('article-reactions')
+                .on(
+                    'postgres_changes',
+                    { event: '*', schema: 'public', table: 'article_reactions' },
+                    payload => {
+                        const next = payload.new;
+                        if (next && next.article_id) {
+                            updateLoveCounters(next.article_id, next.loves ?? 0);
+                        }
+                    }
+                )
+                .subscribe();
+        }
+
         function escapeHtml(value) {
             return String(value)
                 .replace(/&/g, "&amp;")
@@ -670,11 +735,15 @@
             if (window.fetchTotalLoves && loveCountEl) {
                 const loveCounts = await window.fetchTotalLoves();
                 loveCountEl.textContent = loveCounts[articleId] ?? 0;
+            } else if (loveCountEl) {
+                loveCountEl.textContent = loveCountEl.textContent === "—" ? 0 : loveCountEl.textContent;
             }
 
             if (window.fetchCommentCounts && commentCountEl) {
                 const commentCounts = await window.fetchCommentCounts();
                 commentCountEl.textContent = commentCounts[articleId] ?? 0;
+            } else if (commentCountEl) {
+                commentCountEl.textContent = commentCountEl.textContent === "—" ? 0 : commentCountEl.textContent;
             }
 
             if (window.fetchComments && commentsListEl) {
@@ -682,10 +751,25 @@
                 renderComments(commentsListEl, comments);
             }
 
-            if (loveBtn && window.incrementArticleLove) {
+            if (loveBtn) {
                 loveBtn.addEventListener('click', async () => {
                     loveBtn.disabled = true;
-                    const result = await window.incrementArticleLove(articleId);
+                    loveBtn.classList.add('animate');
+                    setTimeout(() => loveBtn.classList.remove('animate'), 600);
+
+                    let result = { success: false };
+                    if (window.incrementArticleLove) {
+                        result = await window.incrementArticleLove(articleId);
+                    } else {
+                        const lovedKey = `loved:${articleId}`;
+                        if (!localStorage.getItem(lovedKey)) {
+                            localStorage.setItem(lovedKey, "1");
+                            result = { success: true };
+                        } else {
+                            result = { success: false, alreadyLoved: true };
+                        }
+                    }
+
                     if (result && result.success) {
                         loveBtn.classList.add('is-loved');
                         if (loveCountEl) {
@@ -781,7 +865,11 @@
                         </div>
                     ` : article.contentHtml}
                     <div class="article-engagement" data-article="${article.id}">
-                        <button type="button" class="love-btn" data-article="${article.id}"><i class="fa-solid fa-heart"></i> Love <span class="love-count">—</span></button>
+                        <button type="button" class="love-btn" data-article="${article.id}">
+                            <span class="heart-icon" aria-hidden="true"><i class="fa-solid fa-heart"></i></span>
+                            Love <span class="love-count">—</span>
+                            <span class="heart-burst" aria-hidden="true"></span>
+                        </button>
                         <div class="engagement-stat"><i class="fa-regular fa-comments"></i> Comments: <span class="comment-total">—</span></div>
                     </div>
                     <div class="comments-section" data-article="${article.id}">
@@ -912,6 +1000,7 @@
             }
 
             renderArticleList();
+            subscribeToReactions();
             const hashId = window.location.hash.replace('#', '');
             if (hashId) {
                 openArticle(hashId);
